@@ -1,0 +1,6 @@
+<Project>
+  <PropertyGroup>
+    <VALHEIM_INSTALL>D:\SteamLibrary\steamapps\common\Valheim</VALHEIM_INSTALL>
+    <SKYHEIM_DLL>D:\valheim-mods\cjaycraft\Cjayride.Skyheim\dist\skyheim.dll</SKYHEIM_DLL>
+  </PropertyGroup>
+</Project>

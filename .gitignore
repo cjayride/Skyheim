@@ -1,0 +1,13 @@
+**/bin/
+**/obj/
+**/.vs/
+*.user
+*.suo
+dist/compat/*.pdb
+dist/compat/AsmResolver*
+dist/compat/BepInEx.AssemblyPublicizer*
+dist/upload/*-stage/
+SkyheimCompat-1.1.5.zip
+SkyheimCompat-1.1.6.zip
+SkyheimFix-1.3.20.zip
+SkyheimFix-1.3.21.zip
