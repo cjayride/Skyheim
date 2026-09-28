@@ -2,15 +2,15 @@
 
 Temporary Valheim 1.0 packages by **cjayride** for [Skyheim by makail](https://thunderstore.io/c/valheim/p/makail/Skyheim/).
 
-- **Skyheim 1.0 Fix 1.3.23** — rewritten `skyheim.dll` (`InventoryElement`, current APIs).
-- **Skyheim Compat 1.1.9** — localization, rune config, cooldown blocking, SeneaL UI HUD compatibility.
+- **Skyheim 1.0 Fix 1.3.24** — rewritten `skyheim.dll` (`InventoryElement`, current APIs).
+- **Skyheim Compat 1.1.10** — localization, rune config, cooldown blocking, SeneaL UI HUD compatibility.
 
 Install **both**. Do not also enable original **makail-Skyheim**.
 
 Thunderstore zips for this release:
 
-- `dist/upload/SkyheimFix-1.3.23.zip`
-- `dist/upload/SkyheimCompat-1.1.9.zip`
+- `dist/upload/SkyheimFix-1.3.24.zip`
+- `dist/upload/SkyheimCompat-1.1.10.zip`
 
 ---
 

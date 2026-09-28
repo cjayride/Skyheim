@@ -20,6 +20,10 @@ If makail ever releases an official update, **please switch back to the original
 
 ---
 
+### Latest Update (1.1.10)
+
+- Fixed a console NullReferenceException from Skyheim when poison/AoE damage ticks (windfury damage hook).
+
 ### Latest Update (1.1.9)
 
 - Thunderstore package uses the 1.0 COMPAT icon.
@@ -58,8 +62,8 @@ Do **not** also enable original **makail-Skyheim**. That DLL fails on Valheim 1.
 ### Manual / Nexus
 
 1. Install **BepInEx**.
-2. Install **Skyheim 1.0 Fix 1.3.23**.
-3. Install this **Skyheim Compat 1.1.9** package into `BepInEx/plugins`.
+2. Install **Skyheim 1.0 Fix 1.3.24**.
+3. Install this **Skyheim Compat 1.1.10** package into `BepInEx/plugins`.
 4. Launch the game.
 
 Do **not** use this with the original (unfixed) Skyheim.

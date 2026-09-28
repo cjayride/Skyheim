@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.3.24
+
+- Requires Skyheim Compat 1.1.10 (guards Skyheim's Character.Damage windfury hook so poison/AoE hits no longer NRE).
+
 ## 1.3.23
 
 - Requires Skyheim Compat 1.1.9.

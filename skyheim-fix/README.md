@@ -33,10 +33,9 @@ Features include:
 
 ---
 
-### Latest Update (1.3.23)
+### Latest Update (1.3.24)
 
-- Requires **Skyheim Compat 1.1.9**.
-- Package uses the 1.0 FIX icon.
+- Requires **Skyheim Compat 1.1.10** (poison/AoE NullReferenceException in Skyheim's damage postfix).
 - Compat 1.1.5+ fixes enchanted-armor tooltip crashes and first-hover display.
 - Fixed item names and descriptions in-game (no more missing/blank localization).
 - Fixed a crash that occurred when trying to craft items (including with `devcommands`).
@@ -56,7 +55,7 @@ Install **Skyheim 1.0 Fix**. **Skyheim Compat** is a required dependency and wil
 
 1. Make sure you have **BepInEx** installed.
 2. Remove any previous version of Skyheim (original or other fixes).
-3. Install **both** this package **and** **Skyheim Compat 1.1.9**.
+3. Install **both** this package **and** **Skyheim Compat 1.1.10**.
 4. Keep `skyheim.json` next to `skyheim.dll`.
 5. Launch the game.
 

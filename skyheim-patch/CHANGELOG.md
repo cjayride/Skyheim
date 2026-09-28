@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.1.10
+
+- Fixed a NullReferenceException in Skyheim's windfury damage hook when poison/AoE hits have no attacker, nview, or status manager.
+
 ## 1.1.9
 
 - Thunderstore package uses the 1.0 COMPAT icon.
