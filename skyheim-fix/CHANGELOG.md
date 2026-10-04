@@ -1,5 +1,13 @@
 # Changelog
 
+## 1.3.26
+
+- Bosses drop `eitr_shard_drop` in the configured stack (Eikthyr 5, and the rest of `cjayride.SkyheimEitr.cfg`). The stack is written onto the loot list the ragdoll saves, so boss loot chests receive the full amount instead of Skyheim's built-in 1.
+
+## 1.3.25
+
+- Boss eitr shards stack to 50. Per-player amounts are in `cjayride.SkyheimEitr.cfg` (built into `skyheim.dll`). Dedicated server sends those numbers to clients.
+
 ## 1.3.24
 
 - Requires Skyheim Compat 1.1.10 (guards Skyheim's Character.Damage windfury hook so poison/AoE hits no longer NRE).

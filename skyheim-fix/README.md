@@ -33,6 +33,14 @@ Features include:
 
 ---
 
+### Latest Update (1.3.26)
+
+- Bosses drop the configured `eitr_shard_drop` stack (Eikthyr is 5). Edit `BepInEx/config/cjayride.SkyheimEitr.cfg`.
+
+### Latest Update (1.3.25)
+
+- Boss eitr shard amounts (and stack size 50) are in `skyheim.dll`. Edit `BepInEx/config/cjayride.SkyheimEitr.cfg`. Compat stays localization/HUD/runes only.
+
 ### Latest Update (1.3.24)
 
 - Requires **Skyheim Compat 1.1.10** (poison/AoE NullReferenceException in Skyheim's damage postfix).

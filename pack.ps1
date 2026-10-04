@@ -1,12 +1,22 @@
 # Builds Thunderstore zips with the correct per-package icon and CHANGELOG.md.
 param(
     [string] $CompatVersion = "1.1.10",
-    [string] $FixVersion = "1.3.24"
+    [string] $FixVersion = "1.3.26"
 )
 
 $ErrorActionPreference = "Stop"
 $root = $PSScriptRoot
 $out = Join-Path $root "dist\upload"
+
+dotnet build (Join-Path $root "Cjayride.SkyheimEitr\Cjayride.SkyheimEitr.csproj") -c Release
+if ($LASTEXITCODE -ne 0) { throw "SkyheimEitr build failed" }
+
+$il = Join-Path $root "tools\ilrepack\pkg\tools\ILRepack.exe"
+$bep = "D:\SteamLibrary\steamapps\common\Valheim\BepInEx\core"
+$game = "D:\SteamLibrary\steamapps\common\Valheim\valheim_Data\Managed"
+$merged = Join-Path $root "dist\skyheim.merged.dll"
+& $il /lib:$bep /lib:$game /out:$merged (Join-Path $root "dist\skyheim.dll") (Join-Path $root "dist\eitr\Cjayride.SkyheimEitr.dll")
+if ($LASTEXITCODE -ne 0) { throw "ILRepack failed" }
 
 function New-TsZip {
     param($Stage, $Zip, $Files)
@@ -32,7 +42,7 @@ New-TsZip -Stage (Join-Path $out "compat-stage") -Zip (Join-Path $out "SkyheimCo
 }
 
 New-TsZip -Stage (Join-Path $out "fix-stage") -Zip (Join-Path $out "SkyheimFix-$FixVersion.zip") -Files @{
-    "skyheim.dll" = "$root\dist\skyheim.dll"
+    "skyheim.dll" = $merged
     "skyheim.json" = "$root\dist\skyheim.json"
     "manifest.json" = "$root\skyheim-fix\manifest.json"
     "README.md" = "$root\skyheim-fix\README.md"
