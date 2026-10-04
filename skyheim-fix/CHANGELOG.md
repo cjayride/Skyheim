@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.3.27
+
+- Keep the merged DLL's assembly name as `skyheim`, so the asset bundle can attach SkyheimAltarPanel, recipes, status effects, and the other scripts. The log reports Skyheim 1.3.27 instead of 1.3.12.
+
 ## 1.3.26
 
 - Bosses drop `eitr_shard_drop` in the configured stack (Eikthyr 5, and the rest of `cjayride.SkyheimEitr.cfg`). The stack is written onto the loot list the ragdoll saves, so boss loot chests receive the full amount instead of Skyheim's built-in 1.

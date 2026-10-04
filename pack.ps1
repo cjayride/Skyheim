@@ -1,7 +1,7 @@
 # Builds Thunderstore zips with the correct per-package icon and CHANGELOG.md.
 param(
-    [string] $CompatVersion = "1.1.10",
-    [string] $FixVersion = "1.3.26"
+    [string] $CompatVersion = "1.1.11",
+    [string] $FixVersion = "1.3.27"
 )
 
 $ErrorActionPreference = "Stop"
@@ -14,9 +14,28 @@ if ($LASTEXITCODE -ne 0) { throw "SkyheimEitr build failed" }
 $il = Join-Path $root "tools\ilrepack\pkg\tools\ILRepack.exe"
 $bep = "D:\SteamLibrary\steamapps\common\Valheim\BepInEx\core"
 $game = "D:\SteamLibrary\steamapps\common\Valheim\valheim_Data\Managed"
-$merged = Join-Path $root "dist\skyheim.merged.dll"
+$repackDir = Join-Path $root "dist\repack"
+New-Item -ItemType Directory -Force -Path $repackDir | Out-Null
+# Output file name becomes the assembly name. The asset bundle looks up scripts in "skyheim".
+$merged = Join-Path $repackDir "skyheim.dll"
+if (Test-Path $merged) { Remove-Item $merged -Force }
 & $il /lib:$bep /lib:$game /out:$merged (Join-Path $root "dist\skyheim.dll") (Join-Path $root "dist\eitr\Cjayride.SkyheimEitr.dll")
 if ($LASTEXITCODE -ne 0) { throw "ILRepack failed" }
+
+Add-Type -Path "$env:USERPROFILE\.nuget\packages\mono.cecil\0.11.6\lib\net40\Mono.Cecil.dll"
+$resolver = New-Object Mono.Cecil.DefaultAssemblyResolver
+$reader = New-Object Mono.Cecil.ReaderParameters
+$reader.ReadWrite = $true
+$reader.AssemblyResolver = $resolver
+$asm = [Mono.Cecil.AssemblyDefinition]::ReadAssembly($merged, $reader)
+$plugin = $asm.MainModule.Types | Where-Object { $_.Name -eq "SkyheimPlugin" }
+foreach ($attr in $plugin.CustomAttributes) {
+    if ($attr.AttributeType.Name -eq "BepInPlugin") {
+        $attr.ConstructorArguments[2] = New-Object Mono.Cecil.CustomAttributeArgument($attr.ConstructorArguments[2].Type, $FixVersion)
+    }
+}
+$asm.Write()
+$asm.Dispose()
 
 function New-TsZip {
     param($Stage, $Zip, $Files)

@@ -33,6 +33,10 @@ Features include:
 
 ---
 
+### Latest Update (1.3.27)
+
+- Asset-bundle scripts bind again. The plugin log line is Skyheim 1.3.27.
+
 ### Latest Update (1.3.26)
 
 - Bosses drop the configured `eitr_shard_drop` stack (Eikthyr is 5). Edit `BepInEx/config/cjayride.SkyheimEitr.cfg`.

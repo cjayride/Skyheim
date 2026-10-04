@@ -1,5 +1,10 @@
 # Changelog
 
+## 1.1.11
+
+- Null-safe Rune Altar container update, so a missing SkyheimAltarPanel script does not break the inventory.
+- Builds the rune cooldown overlay at runtime, so a missing SkyheimCooldownItem script does not leave cooldowns blank.
+
 ## 1.1.10
 
 - Fixed a NullReferenceException in Skyheim's windfury damage hook when poison/AoE hits have no attacker, nview, or status manager.

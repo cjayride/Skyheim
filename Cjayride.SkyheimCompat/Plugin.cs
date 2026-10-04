@@ -19,7 +19,7 @@ namespace Cjayride.SkyheimCompat
     {
         public const string PluginGUID = "cjayride.skyheimcompat";
         public const string PluginName = "Cjayride Skyheim Compat";
-        public const string PluginVersion = "1.1.10";
+        public const string PluginVersion = "1.1.11";
         internal const string SenealGuid = "seneaL.valheim.ui";
 
         internal static Plugin Instance;
@@ -35,7 +35,10 @@ namespace Cjayride.SkyheimCompat
             _harmony = new Harmony(PluginGUID);
             RemoveSkyheimInventoryTooltipPrefix();
             RemoveSkyheimHudPrefabPatches();
+            UnpatchByDeclaringType(typeof(InventoryGui), "UpdateContainer", HarmonyPatchType.Prefix, "SkyheimAltarPanel");
             WindfuryDamageGuard.RemoveOriginal(_harmony);
+            AltarPanelFix.Apply(_harmony);
+            CooldownPrefabFix.Replace();
             _harmony.PatchAll();
             SenealCooldownOverlay.Init(_harmony);
             ApplySkyheimLocalization();
