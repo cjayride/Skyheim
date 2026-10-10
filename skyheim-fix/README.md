@@ -33,6 +33,11 @@ Features include:
 
 ---
 
+### Latest Update (1.3.28)
+
+- Requires Skyheim Compat 1.1.13. Compat lists no dependencies.
+- Status runes spend their eitr cost on cast. Rune magic skills have a config for experience gain and experience lost on death.
+
 ### Latest Update (1.3.27)
 
 - Asset-bundle scripts bind again. The plugin log line is Skyheim 1.3.27.

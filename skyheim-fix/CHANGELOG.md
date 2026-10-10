@@ -1,5 +1,11 @@
 # Changelog
 
+## 1.3.28
+
+- Requires Skyheim Compat 1.1.13. Compat has no dependencies of its own.
+- Status runes spend their eitr cost when the cast is accepted, so Warmth and the other buff runes can no longer be clicked for free skill experience.
+- Rune magic skills have Skill Experience Gain Factor (default 1) and Skill Experience Loss (default 0).
+
 ## 1.3.27
 
 - Keep the merged DLL's assembly name as `skyheim`, so the asset bundle can attach SkyheimAltarPanel, recipes, status effects, and the other scripts. The log reports Skyheim 1.3.27 instead of 1.3.12.

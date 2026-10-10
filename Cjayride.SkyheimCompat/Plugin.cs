@@ -19,7 +19,7 @@ namespace Cjayride.SkyheimCompat
     {
         public const string PluginGUID = "cjayride.skyheimcompat";
         public const string PluginName = "Cjayride Skyheim Compat";
-        public const string PluginVersion = "1.1.11";
+        public const string PluginVersion = "1.1.13";
         internal const string SenealGuid = "seneaL.valheim.ui";
 
         internal static Plugin Instance;
@@ -39,6 +39,7 @@ namespace Cjayride.SkyheimCompat
             WindfuryDamageGuard.RemoveOriginal(_harmony);
             AltarPanelFix.Apply(_harmony);
             CooldownPrefabFix.Replace();
+            MagicSkillBalance.Bind(Config);
             _harmony.PatchAll();
             SenealCooldownOverlay.Init(_harmony);
             ApplySkyheimLocalization();
@@ -495,6 +496,74 @@ namespace Cjayride.SkyheimCompat
             if (item != null)
             {
                 InventoryGrid_CreateItemTooltip_Patch.SetTooltip(grid, item, __instance);
+            }
+        }
+    }
+
+    /// <summary>
+    /// Vanilla spends attack eitr only after the animator enters the attack state.
+    /// Skyheim buff runes (Warmth and the other status casts) never enter that state,
+    /// so the cost is checked and then never taken, and every click still grants skill XP.
+    /// Charge the eitr when the cast is accepted, and suppress the later vanilla charge
+    /// so projectile runes are not billed twice.
+    /// </summary>
+    [HarmonyPatch]
+    internal static class Attack_SkyheimEitrSpend_Patch
+    {
+        private static readonly HashSet<Attack> Prepaid = new HashSet<Attack>();
+        private static readonly Dictionary<Attack, float> HiddenCost = new Dictionary<Attack, float>();
+
+        [HarmonyPatch(typeof(Attack), nameof(Attack.Start))]
+        [HarmonyPostfix]
+        private static void Start_Postfix(Attack __instance, ref bool __result)
+        {
+            if (!__result || __instance?.m_character == null || __instance.m_weapon == null)
+            {
+                return;
+            }
+
+            if (__instance.m_weapon.m_dropPrefab == null || __instance.m_weapon.m_dropPrefab.GetComponent<SkyheimItemData>() == null)
+            {
+                return;
+            }
+
+            float cost = __instance.GetAttackEitr(__instance.m_character, __instance.m_weapon);
+            if (cost <= 0f)
+            {
+                return;
+            }
+
+            __instance.m_character.UseEitr(cost);
+            Prepaid.Add(__instance);
+        }
+
+        [HarmonyPatch(typeof(Attack), nameof(Attack.Update))]
+        [HarmonyPrefix]
+        private static void Update_Prefix(Attack __instance)
+        {
+            if (!Prepaid.Contains(__instance))
+            {
+                return;
+            }
+
+            if (__instance.m_wasInAttack || __instance.m_attackDone)
+            {
+                Prepaid.Remove(__instance);
+                return;
+            }
+
+            HiddenCost[__instance] = __instance.m_attackEitr;
+            __instance.m_attackEitr = 0f;
+        }
+
+        [HarmonyPatch(typeof(Attack), nameof(Attack.Update))]
+        [HarmonyPostfix]
+        private static void Update_Postfix(Attack __instance)
+        {
+            if (HiddenCost.TryGetValue(__instance, out float cost))
+            {
+                __instance.m_attackEitr = cost;
+                HiddenCost.Remove(__instance);
             }
         }
     }

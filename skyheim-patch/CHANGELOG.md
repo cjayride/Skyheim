@@ -1,5 +1,13 @@
 # Changelog
 
+## 1.1.13
+
+- Rune magic skills (Nature, Holy, Fire, Frost) have Skill Experience Gain Factor and Skill Experience Loss, with the same defaults as Blacksmithing (1 and 0).
+
+## 1.1.12
+
+- Skyheim buff runes spend their eitr cost when the cast is accepted. Warmth and the other status runes were checking the cost and then never taking it, so they could be clicked forever and the magic skill leveled to the cap.
+
 ## 1.1.11
 
 - Null-safe Rune Altar container update, so a missing SkyheimAltarPanel script does not break the inventory.
