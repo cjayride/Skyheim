@@ -2,15 +2,15 @@
 
 Temporary Valheim 1.0 packages by **cjayride** for [Skyheim by makail](https://thunderstore.io/c/valheim/p/makail/Skyheim/).
 
-- **Skyheim 1.0 Fix 1.3.28** — rewritten `skyheim.dll` (bundle scripts bind; bosses drop the configured eitr shard stack). Requires Skyheim Compat 1.1.13.
-- **Skyheim Compat 1.1.13** — localization, rune config, cooldown overlay, null-safe altar panel, SeneaL UI HUD compatibility. Status runes spend their eitr cost.
+- **Skyheim 1.0 Fix 1.3.29** — rewritten `skyheim.dll` (bundle scripts bind; bosses drop the configured eitr shard stack). Requires Skyheim Compat 1.1.15.
+- **Skyheim Compat 1.1.15** — localization, rune config, visible cooldown timers, null-safe altar panel, SeneaL UI HUD compatibility. Status runes spend their eitr cost.
 
 Install **both**. Do not also enable original **makail-Skyheim**.
 
 Thunderstore zips for this release:
 
-- `dist/upload/SkyheimFix-1.3.28.zip`
-- `dist/upload/SkyheimCompat-1.1.13.zip`
+- `dist/upload/SkyheimFix-1.3.29.zip`
+- `dist/upload/SkyheimCompat-1.1.15.zip`
 
 ---
 

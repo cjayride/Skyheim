@@ -1,5 +1,10 @@
 # Changelog
 
+## 1.1.15
+
+- Rune cooldown timers draw on the hotbar and in the inventory. The overlay was being created switched off, so the seconds never appeared.
+- Destroyed cooldown overlays are removed before Skyheim updates them, which stops the fillAmount null-reference spam.
+
 ## 1.1.13
 
 - Rune magic skills (Nature, Holy, Fire, Frost) have Skill Experience Gain Factor and Skill Experience Loss, with the same defaults as Blacksmithing (1 and 0).

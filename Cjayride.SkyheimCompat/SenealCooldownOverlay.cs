@@ -1,8 +1,10 @@
 using System;
+using System.Collections.Generic;
 using System.Reflection;
 using HarmonyLib;
 using skyheim;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace Cjayride.SkyheimCompat
 {
@@ -143,8 +145,14 @@ namespace Cjayride.SkyheimCompat
             }
 
             SkyheimCooldownItem existing = parent.GetComponentInChildren<SkyheimCooldownItem>(true);
-            if (existing != null)
+            if (existing)
             {
+                GameObject existingGo = existing.gameObject;
+                if (existingGo && !existingGo.activeSelf)
+                {
+                    existingGo.SetActive(true);
+                }
+
                 Vector2i current = GetLocation(existing);
                 if (current.x != location.x || current.y != location.y)
                 {
@@ -167,6 +175,7 @@ namespace Cjayride.SkyheimCompat
             GameObject clone = UnityEngine.Object.Instantiate(prefab, parent);
             clone.name = "skyheim_cooldown";
             Stretch(clone.transform as RectTransform);
+            clone.SetActive(true);
 
             SkyheimCooldownItem item = clone.GetComponent<SkyheimCooldownItem>()
                 ?? clone.GetComponentInChildren<SkyheimCooldownItem>(true);
@@ -217,6 +226,46 @@ namespace Cjayride.SkyheimCompat
 
                 CooldownPrefab.EnsureOn(element.transform, element.Position);
             }
+        }
+    }
+
+    [HarmonyPatch(typeof(SkyheimCooldown), "Update")]
+    internal static class SkyheimCooldown_Update_Patch
+    {
+        private static readonly FieldInfo Updateables =
+            AccessTools.Field(typeof(SkyheimCooldown), "_updateables");
+
+        private static void Prefix(SkyheimCooldown __instance)
+        {
+            if (Updateables?.GetValue(__instance) is not List<SkyheimCooldownItem> list)
+            {
+                return;
+            }
+
+            for (int i = list.Count - 1; i >= 0; i--)
+            {
+                if (!list[i])
+                {
+                    list.RemoveAt(i);
+                }
+            }
+        }
+    }
+
+    [HarmonyPatch(typeof(SkyheimCooldownItem), nameof(SkyheimCooldownItem.SetCooldown))]
+    internal static class SkyheimCooldownItem_SetCooldown_Patch
+    {
+        private static readonly FieldInfo Swipe = AccessTools.Field(typeof(SkyheimCooldownItem), "_swipe");
+        private static readonly FieldInfo Label = AccessTools.Field(typeof(SkyheimCooldownItem), "_text");
+
+        private static bool Prefix(SkyheimCooldownItem __instance)
+        {
+            if (!__instance)
+            {
+                return false;
+            }
+
+            return Swipe?.GetValue(__instance) is Image && Label?.GetValue(__instance) is Text;
         }
     }
 }

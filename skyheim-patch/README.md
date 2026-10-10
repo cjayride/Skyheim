@@ -20,6 +20,11 @@ If makail ever releases an official update, **please switch back to the original
 
 ---
 
+### Latest Update (1.1.15)
+
+- Rune cooldown timers show on the hotbar and in the inventory.
+- Stops the null-reference spam from Skyheim updating a cooldown image that was already destroyed.
+
 ### Latest Update (1.1.10)
 
 - Fixed a console NullReferenceException from Skyheim when poison/AoE damage ticks (windfury damage hook).
