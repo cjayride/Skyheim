@@ -37,9 +37,9 @@ namespace Cjayride.SkyheimCompat
             _volumeScale = config.Bind(
                 "Rune immolation",
                 "Aura Audio Volume Scale",
-                0.35f,
+                0.05f,
                 new ConfigDescription(
-                    "Volume multiplier for the explosion sound each Immolation aura hit plays (0 = mute).",
+                    "Unused. Immolation hit volume is the Audio slider for that sound. Left so older configs still load.",
                     new AcceptableValueRange<float>(0f, 1f)));
             _oneSoundPerTick = config.Bind(
                 "Rune immolation",
@@ -94,13 +94,7 @@ namespace Cjayride.SkyheimCompat
                 return;
             }
 
-            float scale = _volumeScale.Value;
-            if (_oneSoundPerTick.Value && !ClaimTickSound(_currentAoe))
-            {
-                scale = 0f;
-            }
-
-            if (scale >= 0.999f)
+            if (_volumeScale == null || !_oneSoundPerTick.Value || ClaimTickSound(_currentAoe))
             {
                 return;
             }
@@ -116,19 +110,11 @@ namespace Cjayride.SkyheimCompat
                 ZSFX[] sounds = go.GetComponentsInChildren<ZSFX>(true);
                 for (int s = 0; s < sounds.Length; s++)
                 {
-                    if (scale <= 0f)
+                    AudioSource source = sounds[s].GetComponent<AudioSource>();
+                    if (source != null)
                     {
-                        AudioSource source = sounds[s].GetComponent<AudioSource>();
-                        if (source != null)
-                        {
-                            source.mute = true;
-                        }
-
-                        continue;
+                        source.mute = true;
                     }
-
-                    sounds[s].m_minVol *= scale;
-                    sounds[s].m_maxVol *= scale;
                 }
             }
         }

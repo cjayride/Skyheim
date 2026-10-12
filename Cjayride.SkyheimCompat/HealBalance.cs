@@ -48,7 +48,7 @@ namespace Cjayride.SkyheimCompat
                 "Rune healing",
                 "Show Heal Vfx On Allies",
                 true,
-                "Spawn a short heal burst VFX on each character when the healing rune HoT is applied.");
+                "Spawn a short heal burst VFX on each character when the healing rune HoT is applied. Its volume is the Audio slider for vfx_Potion_health_medium.");
         }
 
         internal static bool IsSkyheimHealRune(SE_Heal heal)
@@ -129,7 +129,15 @@ namespace Cjayride.SkyheimCompat
                 return;
             }
 
-            Object.Instantiate(prefab, character.GetCenterPoint(), Quaternion.identity);
+            SkyheimAudio.Enter();
+            try
+            {
+                Object.Instantiate(prefab, character.GetCenterPoint(), Quaternion.identity);
+            }
+            finally
+            {
+                SkyheimAudio.Exit();
+            }
         }
     }
 

@@ -2,15 +2,15 @@
 
 Temporary Valheim 1.0 packages by **cjayride** for [Skyheim by makail](https://thunderstore.io/c/valheim/p/makail/Skyheim/).
 
-- **Skyheim 1.0 Fix 1.3.33** — rewritten `skyheim.dll` (bundle scripts bind; bosses drop the configured eitr shard stack). Requires Skyheim Compat 1.1.25.
-- **Skyheim Compat 1.1.25** — Recall returns to the bed, and Skyheim names stay in the selected language.
+- **Skyheim 1.0 Fix 1.3.34** — rewritten `skyheim.dll` (bundle scripts bind; bosses drop the configured eitr shard stack). Requires Skyheim Compat 1.1.26.
+- **Skyheim Compat 1.1.26** — Skyheim spell sounds default to half volume, with a slider for each sound.
 
 Install **both**. Do not also enable original **makail-Skyheim**.
 
 Thunderstore zips for this release:
 
-- `dist/upload/SkyheimFix-1.3.33.zip`
-- `dist/upload/SkyheimCompat-1.1.25.zip`
+- `dist/upload/SkyheimFix-1.3.34.zip`
+- `dist/upload/SkyheimCompat-1.1.26.zip`
 
 ---
 

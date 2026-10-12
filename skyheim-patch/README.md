@@ -20,6 +20,10 @@ If makail ever releases an official update, **please switch back to the original
 
 ---
 
+### Latest Update (1.1.26)
+
+- Each Skyheim spell sound has a volume slider. The default is half of the original volume. Immolation still plays one explosion per tick.
+
 ### Latest Update (1.1.25)
 
 - Rune of Recall returns to the bed after the world has autosaved, instead of the last logout point.

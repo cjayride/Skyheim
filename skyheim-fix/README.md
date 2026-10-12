@@ -33,6 +33,11 @@ Features include:
 
 ---
 
+### Latest Update (1.3.34)
+
+- Requires Skyheim Compat 1.1.26. Compat lists no dependencies.
+- skyheim.dll behavior is unchanged from 1.3.33. This version exists so the package depends on the Compat build that turns Skyheim spell sounds down to half volume.
+
 ### Latest Update (1.3.33)
 
 - Requires Skyheim Compat 1.1.25. Compat lists no dependencies.

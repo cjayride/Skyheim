@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.1.26
+
+- Each Skyheim spell sound has a volume slider under Audio. The default is half volume (0.5). Immolation still plays one explosion per tick.
+
 ## 1.1.25
 
 - Rune of Recall uses the bed after the world has autosaved. It was taking the logout point from that save.
