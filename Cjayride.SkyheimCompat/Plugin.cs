@@ -19,7 +19,7 @@ namespace Cjayride.SkyheimCompat
     {
         public const string PluginGUID = "cjayride.skyheimcompat";
         public const string PluginName = "Cjayride Skyheim Compat";
-        public const string PluginVersion = "1.1.24";
+        public const string PluginVersion = "1.1.25";
         internal const string SenealGuid = "seneaL.valheim.ui";
 
         internal static Plugin Instance;
@@ -27,6 +27,7 @@ namespace Cjayride.SkyheimCompat
         private static MethodInfo _addWord;
         private static bool _applying;
         private static bool _loggedSuccess;
+        private static bool _languageApplied;
 
         private void Awake()
         {
@@ -201,6 +202,13 @@ namespace Cjayride.SkyheimCompat
 
         internal static void ApplySkyheimLocalization(string languageName = null)
         {
+            // SetLanguage clears the dictionary. Later item wakes must not write English back over it.
+            bool fromLanguageChange = !string.IsNullOrEmpty(languageName);
+            if (!fromLanguageChange && _languageApplied)
+            {
+                return;
+            }
+
             if (_applying || Localization.instance == null)
             {
                 return;
@@ -210,7 +218,7 @@ namespace Cjayride.SkyheimCompat
             try
             {
                 JSONNode root = JSON.Parse(ReadLocalizationJson());
-                string selectedLanguage = string.IsNullOrEmpty(languageName) ? "English" : languageName;
+                string selectedLanguage = fromLanguageChange ? languageName : "English";
                 JSONNode language = root[selectedLanguage] ?? root["English"];
                 if (language == null || language.Count == 0)
                 {
@@ -236,6 +244,7 @@ namespace Cjayride.SkyheimCompat
                     count++;
                 }
 
+                _languageApplied = true;
                 if (!_loggedSuccess)
                 {
                     _loggedSuccess = true;
@@ -287,6 +296,23 @@ namespace Cjayride.SkyheimCompat
             }
 
             return prefab != null ? prefab.GetComponent<SkyheimItemData>() : null;
+        }
+    }
+
+    // RequestRespawn(delay, false) prefers the logout point once a world save has written one.
+    // The death flag is only that spawn choice. Skill loss stays in Player.OnDeath.
+    [HarmonyPatch(typeof(SkyheimAttackRecall), "OnAttackTrigger")]
+    internal static class SkyheimAttackRecall_OnAttackTrigger_Patch
+    {
+        private static bool Prefix(ref bool __result)
+        {
+            if (Game.instance != null)
+            {
+                Game.instance.RequestRespawn(1.25f, true);
+            }
+
+            __result = true;
+            return false;
         }
     }
 

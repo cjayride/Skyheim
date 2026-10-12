@@ -2,15 +2,15 @@
 
 Temporary Valheim 1.0 packages by **cjayride** for [Skyheim by makail](https://thunderstore.io/c/valheim/p/makail/Skyheim/).
 
-- **Skyheim 1.0 Fix 1.3.32** — rewritten `skyheim.dll` (bundle scripts bind; bosses drop the configured eitr shard stack). Requires Skyheim Compat 1.1.24.
-- **Skyheim Compat 1.1.24** — Rune Altar status line shows the shard cost, how many shards are in the chest, and the wait time.
+- **Skyheim 1.0 Fix 1.3.33** — rewritten `skyheim.dll` (bundle scripts bind; bosses drop the configured eitr shard stack). Requires Skyheim Compat 1.1.25.
+- **Skyheim Compat 1.1.25** — Recall returns to the bed, and Skyheim names stay in the selected language.
 
 Install **both**. Do not also enable original **makail-Skyheim**.
 
 Thunderstore zips for this release:
 
-- `dist/upload/SkyheimFix-1.3.32.zip`
-- `dist/upload/SkyheimCompat-1.1.24.zip`
+- `dist/upload/SkyheimFix-1.3.33.zip`
+- `dist/upload/SkyheimCompat-1.1.25.zip`
 
 ---
 

@@ -20,6 +20,11 @@ If makail ever releases an official update, **please switch back to the original
 
 ---
 
+### Latest Update (1.1.25)
+
+- Rune of Recall returns to the bed after the world has autosaved, instead of the last logout point.
+- Skyheim names stay in the selected language. Later item wakes no longer write the English text back over them.
+
 ### Latest Update (1.1.24)
 
 - The Rune Altar status line says how many Eitr Shards the armor needs, how many are in the chest, and how long the imbue takes. The timer still starts only when the full amount is there and the chest is closed.

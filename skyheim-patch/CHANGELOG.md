@@ -1,5 +1,10 @@
 # Changelog
 
+## 1.1.25
+
+- Rune of Recall uses the bed after the world has autosaved. It was taking the logout point from that save.
+- Skyheim names are applied when the language loads. Later item wakes no longer write the English text back over that language.
+
 ## 1.1.24
 
 - The Rune Altar status line no longer checks every altar every frame. It updates when the chest contents change, when the timer second changes, or once when an imbue finishes.

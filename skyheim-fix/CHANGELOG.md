@@ -1,5 +1,10 @@
 # Changelog
 
+## 1.3.33
+
+- Requires Skyheim Compat 1.1.25. Compat has no dependencies of its own.
+- No change to skyheim.dll behavior. The version moved so this package depends on the Compat build that sends Recall to the bed and keeps the selected language.
+
 ## 1.3.32
 
 - Requires Skyheim Compat 1.1.24. Compat has no dependencies of its own.

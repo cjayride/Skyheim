@@ -33,6 +33,11 @@ Features include:
 
 ---
 
+### Latest Update (1.3.33)
+
+- Requires Skyheim Compat 1.1.25. Compat lists no dependencies.
+- skyheim.dll behavior is unchanged from 1.3.32. This version exists so the package depends on the Compat build that sends Recall to the bed and keeps the selected language.
+
 ### Latest Update (1.3.32)
 
 - Requires Skyheim Compat 1.1.24. Compat lists no dependencies.
