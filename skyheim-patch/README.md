@@ -20,6 +20,10 @@ If makail ever releases an official update, **please switch back to the original
 
 ---
 
+### Latest Update (1.1.27)
+
+- Rune cooldown timers show on the vanilla hotbar and in the inventory. SeneaL slots already showed them.
+
 ### Latest Update (1.1.26)
 
 - Each Skyheim spell sound has a volume slider. The default is half of the original volume. Immolation still plays one explosion per tick.

@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.1.27
+
+- Rune cooldown timers show on the vanilla hotbar and inventory. They already showed on SeneaL slots.
+
 ## 1.1.26
 
 - Each Skyheim spell sound has a volume slider under Audio. The default is half volume (0.5). Immolation still plays one explosion per tick.

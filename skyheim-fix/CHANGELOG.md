@@ -1,5 +1,10 @@
 # Changelog
 
+## 1.3.35
+
+- Requires Skyheim Compat 1.1.27. Compat has no dependencies of its own.
+- No change to skyheim.dll behavior. The version moved so this package depends on the Compat build that shows rune cooldown timers on the vanilla hotbar.
+
 ## 1.3.34
 
 - Requires Skyheim Compat 1.1.26. Compat has no dependencies of its own.

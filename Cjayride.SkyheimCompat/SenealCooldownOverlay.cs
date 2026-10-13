@@ -212,7 +212,7 @@ namespace Cjayride.SkyheimCompat
     {
         private static void Postfix(InventoryGrid __instance)
         {
-            if (!Plugin.SenealUiLoaded() || __instance == null || __instance.m_elements == null)
+            if (__instance == null || __instance.m_elements == null)
             {
                 return;
             }
@@ -247,6 +247,36 @@ namespace Cjayride.SkyheimCompat
                 if (!list[i])
                 {
                     list.RemoveAt(i);
+                }
+            }
+        }
+    }
+
+    [HarmonyPatch(typeof(SkyheimCooldownItem), nameof(SkyheimCooldownItem.Awake))]
+    internal static class SkyheimCooldownItem_Awake_Patch
+    {
+        private static bool Prefix()
+        {
+            return false;
+        }
+    }
+
+    [HarmonyPatch(typeof(HotkeyBar), "Update")]
+    internal static class HotkeyBar_Update_Cooldown_Patch
+    {
+        private static void Postfix(HotkeyBar __instance)
+        {
+            if (Plugin.SenealUiLoaded() || __instance == null || __instance.m_elements == null)
+            {
+                return;
+            }
+
+            for (int i = 0; i < __instance.m_elements.Count; i++)
+            {
+                GameObject slot = __instance.m_elements[i].m_go;
+                if (slot)
+                {
+                    CooldownPrefab.EnsureOn(slot.transform, new Vector2i(i, 0));
                 }
             }
         }
