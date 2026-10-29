@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.1.28
+
+- Tested on Valheim 1.0.21 (Steam build 26249040). No behavior changes.
+
 ## 1.1.27
 
 - Rune cooldown timers show on the vanilla hotbar and inventory. They already showed on SeneaL slots.

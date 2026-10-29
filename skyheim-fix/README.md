@@ -33,9 +33,9 @@ Features include:
 
 ---
 
-### Latest Update (1.3.35)
+### Latest Update (1.3.36)
 
-- Requires Skyheim Compat 1.1.27. Compat lists no dependencies.
+- Tested on Valheim 1.0.21. Requires Skyheim Compat 1.1.28 and BepInExPack Valheim 5.4.2360.
 - skyheim.dll behavior is unchanged from 1.3.34. This version exists so the package depends on the Compat build that shows rune cooldown timers on the vanilla hotbar.
 
 ### Latest Update (1.3.34)

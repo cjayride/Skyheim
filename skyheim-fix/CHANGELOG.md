@@ -1,5 +1,11 @@
 # Changelog
 
+## 1.3.36
+
+- Tested on Valheim 1.0.21 (Steam build 26249040).
+- Requires Skyheim Compat 1.1.28 and BepInExPack Valheim 5.4.2360.
+- No change to skyheim.dll behavior.
+
 ## 1.3.35
 
 - Requires Skyheim Compat 1.1.27. Compat has no dependencies of its own.

@@ -20,7 +20,11 @@ If makail ever releases an official update, **please switch back to the original
 
 ---
 
-### Latest Update (1.1.27)
+### Latest Update (1.1.28)
+
+- Tested on Valheim 1.0.21. No behavior changes.
+
+### Previous (1.1.27)
 
 - Rune cooldown timers show on the vanilla hotbar and in the inventory. SeneaL slots already showed them.
 
