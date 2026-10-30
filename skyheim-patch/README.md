@@ -20,7 +20,11 @@ If makail ever releases an official update, **please switch back to the original
 
 ---
 
-### Latest Update (1.1.28)
+### Latest Update (1.1.29)
+
+- Returning to the character select after disconnect no longer duplicates Skyheim items in ObjectDB.
+
+### Previous (1.1.28)
 
 - Tested on Valheim 1.0.21. No behavior changes.
 

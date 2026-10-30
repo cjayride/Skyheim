@@ -10,6 +10,8 @@
     <Version>1.3.27</Version>
     <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
     <OutputPath>$(MSBuildThisFileDirectory)..\dist\eitr\</OutputPath>
+    <BepInExCore>$(VALHEIM_INSTALL)\BepInEx\core</BepInExCore>
+    <BepInExCore Condition="!Exists('$(BepInExCore)\BepInEx.dll')">D:\AI-Agent-Projects\Mods\libs</BepInExCore>
   </PropertyGroup>
 
   <ItemGroup>
@@ -18,11 +20,11 @@
 
   <ItemGroup>
     <Reference Include="BepInEx">
-      <HintPath>$(VALHEIM_INSTALL)\BepInEx\core\BepInEx.dll</HintPath>
+      <HintPath>$(BepInExCore)\BepInEx.dll</HintPath>
       <Private>false</Private>
     </Reference>
     <Reference Include="0Harmony">
-      <HintPath>$(VALHEIM_INSTALL)\BepInEx\core\0Harmony.dll</HintPath>
+      <HintPath>$(BepInExCore)\0Harmony.dll</HintPath>
       <Private>false</Private>
     </Reference>
     <Reference Include="assembly_valheim">

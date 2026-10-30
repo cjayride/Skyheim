@@ -33,7 +33,11 @@ Features include:
 
 ---
 
-### Latest Update (1.3.36)
+### Latest Update (1.3.37)
+
+- Requires Skyheim Compat 1.1.29 (menu-return ObjectDB fix). Install both packages together.
+
+### Previous (1.3.36)
 
 - Tested on Valheim 1.0.21. Requires Skyheim Compat 1.1.28 and BepInExPack Valheim 5.4.2360.
 - skyheim.dll behavior is unchanged from 1.3.34. This version exists so the package depends on the Compat build that shows rune cooldown timers on the vanilla hotbar.

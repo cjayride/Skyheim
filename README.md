@@ -6,21 +6,22 @@ A community compatibility update by **cjayride** for [Skyheim by makail](https:/
 
 ## 📦 Included Packages
 
-### 🛠️ Skyheim 1.0 Fix — v1.3.36
+### 🛠️ Skyheim 1.0 Fix — v1.3.37
 
 A rewritten `skyheim.dll` updated for Valheim 1.0.
 
 - 🔧 Fixes plugin-loading crashes caused by outdated game API references.
 - 💎 Restores configured Eitr shard drops from bosses.
 - 🧩 Updates bundle script bindings for compatibility.
-- ⚠️ Requires **Skyheim Compat v1.1.28** (tested on Valheim 1.0.21).
+- ⚠️ Requires **Skyheim Compat v1.1.29** (tested on Valheim 1.0.21).
 
-### ⏱️ Skyheim Compat — v1.1.28
+### ⏱️ Skyheim Compat — v1.1.29
 
-A companion plugin that restores rune cooldown timers to the vanilla UI.
+A companion plugin that restores rune cooldown timers to the vanilla UI and guards ObjectDB re-registration on menu return.
 
 - 🗡️ Displays rune cooldowns on the hotbar.
 - 🎒 Displays rune cooldowns in the inventory.
+- Prevents duplicate Skyheim item keys after disconnecting back to the main menu.
 
 ## 📥 Installation
 
@@ -32,8 +33,8 @@ A companion plugin that restores rune cooldown timers to the vanilla UI.
 
 ### 📁 Release Archives
 
-- `dist/upload/SkyheimFix-1.3.36.zip`
-- `dist/upload/SkyheimCompat-1.1.28.zip`
+- `dist/upload/SkyheimFix-1.3.37.zip`
+- `dist/upload/SkyheimCompat-1.1.29.zip`
 
 ---
 

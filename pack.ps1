@@ -1,7 +1,7 @@
 # Builds Thunderstore zips with the correct per-package icon and CHANGELOG.md.
 param(
-    [string] $CompatVersion = "1.1.28",
-    [string] $FixVersion = "1.3.36"
+    [string] $CompatVersion = "1.1.29",
+    [string] $FixVersion = "1.3.37"
 )
 
 $ErrorActionPreference = "Stop"
@@ -13,6 +13,9 @@ if ($LASTEXITCODE -ne 0) { throw "SkyheimEitr build failed" }
 
 $il = Join-Path $root "tools\ilrepack\pkg\tools\ILRepack.exe"
 $bep = "D:\SteamLibrary\steamapps\common\Valheim\BepInEx\core"
+if (-not (Test-Path (Join-Path $bep "BepInEx.dll"))) {
+    $bep = "D:\AI-Agent-Projects\Mods\libs"
+}
 $game = "D:\SteamLibrary\steamapps\common\Valheim\valheim_Data\Managed"
 $repackDir = Join-Path $root "dist\repack"
 New-Item -ItemType Directory -Force -Path $repackDir | Out-Null

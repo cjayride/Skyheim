@@ -1,5 +1,10 @@
 # Changelog
 
+## 1.3.37
+
+- Requires Skyheim Compat 1.1.29 (fixes duplicate ObjectDB key when returning to the main menu after disconnect).
+- No change to skyheim.dll behavior.
+
 ## 1.3.36
 
 - Tested on Valheim 1.0.21 (Steam build 26249040).

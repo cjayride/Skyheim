@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.1.29
+
+- Returning to the character select after leaving a server no longer throws a duplicate ObjectDB key for Slime Encrusted Bone (`bonemass_drop`). Skyheim LoadItems is skipped when that item is already registered. Recipes and status effects are not re-run from FejdStartup, so they are not guarded here.
+
 ## 1.1.28
 
 - Tested on Valheim 1.0.21 (Steam build 26249040). No behavior changes.
