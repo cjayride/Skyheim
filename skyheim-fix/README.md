@@ -33,7 +33,50 @@ Features include:
 
 ---
 
-### Latest Update (1.3.37)
+### Latest Update (1.4.0)
+
+- Requires Skyheim Compat 1.2.0. Install both packages together (altar, imbue, icons, i18n, healing, Epic Loot imbue).
+
+### Previous (1.3.44)
+
+- Requires Skyheim Compat 1.1.36. Healing rune tooltip and predicted heal line.
+
+### Previous (1.3.43)
+
+- Requires Skyheim Compat 1.1.35. Healing rune amount scales with Nature Magic; duration scales with rune quality.
+
+### Previous (1.3.42)
+
+- Requires Skyheim Compat 1.1.33. Enchanted legendary set armor can be Eitr-imbued at the Runic Chest.
+
+### Previous (1.3.41)
+
+- Requires Skyheim Compat 1.1.32. The new skill-icon PNGs are applied on the magic skills. Compat fixes the Runic Chest shard text and starting an imbue when you close the chest (SeneaL UI).
+
+### Previous (1.3.40)
+
+- Requires Skyheim Compat 1.1.31. Install both packages together.
+- The Rune Altar click opens the imbue chest. Put armor and Eitr Shards in to imbue. Rune recipes craft only at the altar. The chest hover shows those directions. The new skill icons stay.
+
+### Previous (1.3.39)
+
+- Fixes the three problems 1.3.38 introduced, and keeps the Ukrainian translation:
+  - The Rune Altar opens its own imbue panel again (1.3.38 opened a vanilla Craft panel listing every recipe).
+  - The Runic Chest tooltip shows its directions again, not just the slot count.
+  - The new skill icons now actually appear in the altar panel.
+- Station and chest names are no longer renamed in the loaded assets, so recipes that bind to the literal "Rune Altar" (Wackys Database and other config-driven recipes) keep working, and old saves need no migration. The altar and chest titles read "Rune Altar" / "Runic Chest" in every language, as they always did before 1.3.38; all other Skyheim text still follows the translation file.
+- The Ukrainian/Polish/English translation file and the contributor's icon artwork stay.
+- The mod's asset bundle bytes are untouched.
+
+### Previous (1.3.38)
+
+- Requires Skyheim Compat 1.1.30 (the Ukrainian translation build). Install both packages together.
+- The Rune Altar and its chest now read their names from the translation file, so the altar, its chest, and their tooltips follow the game's language (Ukrainian included). The building menu lists the altar under Crafting.
+- Nine rune skill icons use the contributor's clearer artwork.
+- Characters from older worlds keep their known Rune Altar; the saved station name is migrated on load.
+- The mod's asset bundle bytes are untouched. The names and icons are applied at runtime, which keeps the build reproducible from source.
+
+### Previous (1.3.37)
 
 - Requires Skyheim Compat 1.1.29 (menu-return ObjectDB fix). Install both packages together.
 

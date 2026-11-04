@@ -20,7 +20,41 @@ If makail ever releases an official update, **please switch back to the original
 
 ---
 
-### Latest Update (1.1.29)
+### Latest Update (1.2.0)
+
+- Paired release with Skyheim Fix 1.4.0: altar/imbue fixes, Ukrainian and editable translations, SeneaL chest + imbue, Epic Loot armor imbue, healing rune balance and tooltips.
+
+### Previous (1.1.36)
+
+- Healing rune tooltip lists 10-yard range and predicted \"Heals for X over Y\" from Nature Magic and quality.
+
+### Previous (1.1.35)
+
+- Rune of Healing: Nature Magic increases how much you heal; rune quality increases how long the HoT lasts.
+
+### Previous (1.1.33)
+
+- Enchanted Epic Loot set pieces (Ragnar, unique legendaries, etc.) can be Eitr-imbued. Close the chest to start.
+
+### Previous (1.1.32)
+
+- Runic Chest subtitle keeps the shard cost instead of falling back to SeneaL's slot count.
+- Closing the chest starts the imbue when using SeneaL UI.
+
+### Previous (1.1.31)
+
+- Rune recipes craft only at the Rune Altar. The altar itself still opens as an imbue chest.
+- The Runic Chest hover text shows how to imbue armor and where to craft runes.
+- Altar shard counting matches Eitr Shards by name as well as prefab.
+
+### Previous (1.1.30)
+
+- Ukrainian is in, thanks to a community contribution. All three language blocks (English, Polish, Ukrainian) carry the full set of Skyheim strings, so the mod follows the game's language setting.
+- Drop an edited `skyheim.json` next to `skyheim.dll` to change wording or add a language. The loose file wins over the one packed inside the mod.
+- A language with no block yet falls back to English words instead of showing blanks.
+- Less per-frame UI work: the cooldown overlay on hotbar and inventory slots is cached after the first find.
+
+### Previous (1.1.29)
 
 - Returning to the character select after disconnect no longer duplicates Skyheim items in ObjectDB.
 

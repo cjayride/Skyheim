@@ -1,5 +1,52 @@
 # Changelog
 
+## 1.4.0
+
+- Requires Skyheim Compat 1.2.0. Paired release: Rune Altar imbue chest, rune crafting at the altar, skill icons, translation/i18n assets, and Compat fixes through healing tooltips.
+- Fix version moves to 1.4.x while Compat moves to 1.2.0 (same release, different version lines).
+
+## 1.3.44
+
+- Requires Skyheim Compat 1.1.36 (healing rune tooltip text + predicted heal line).
+
+## 1.3.43
+
+- Requires Skyheim Compat 1.1.35 (healing rune: amount from Nature Magic, duration from rune quality).
+
+## 1.3.42
+
+- Requires Skyheim Compat 1.1.33 (Epic Loot enchanted / legendary set armor can be Eitr-imbued).
+
+## 1.3.41
+
+- Skill icons (Fire/Frost/Holy/Nature) are assigned from the new PNGs onto the skill defs, and the atlas paint retries if the packed texture is not ready on the first load.
+- Requires Skyheim Compat 1.1.32 (SeneaL chest text and imbue start).
+
+## 1.3.40
+
+- Requires Skyheim Compat 1.1.31.
+- Clicking the Rune Altar opens the imbue chest again (not a vanilla Craft panel of every recipe). Put armor and Eitr Shards in the chest to imbue.
+- Rune recipes are bound to the Rune Altar station, so they craft only while you are at the altar.
+- The Runic Chest hover text shows the directions (imbue in the chest, craft runes at the altar). English and Polish descriptions match the Ukrainian ones instead of repeating the piece name.
+- Skill icons still use the contributor artwork painted onto the loaded rune atlas.
+
+## 1.3.39
+
+- Fixes the three problems the 1.3.38 translation build introduced, keeping the Ukrainian translation itself:
+  - The Rune Altar opens its own imbue panel again. 1.3.38 had marked it a vanilla crafting station, so clicking it opened a Craft panel listing every recipe and the gear-plus-shard imbue flow stopped working.
+  - The Runic Chest tooltip shows its directions again. Renaming the chest had left only "x slots, used x slots"; the station and chest names now follow the translation file the normal way, with the literal names kept where recipes and tooltips bind to them.
+  - The new skill icons actually appear. The shipped icon patch compared the texture name exactly and never matched the baked bundle name, so it silently did nothing; it now matches and paints the loaded rune atlas.
+- Old worlds are untouched: station names are no longer renamed, so saved "Rune Altar" entries keep working with no migration.
+- The Ukrainian/Polish/English translation file and the contributor's icon artwork stay.
+
+## 1.3.38
+
+- Requires Skyheim Compat 1.1.30 (the Ukrainian translation build).
+- The Rune Altar, its chest, and their tooltips now follow the translation file. Ukrainian shows "Рунічний вівтар" / "Рунічна скринька"; every language can name them.
+- The building menu lists the Rune Altar under Crafting.
+- Nine rune skill icons (fire, frost, holy, nature and friends) get the contributor's clearer artwork. The art ships as patch data and paints the loaded texture; the game's asset bundle bytes are untouched.- Old worlds keep their known Rune Altar. The saved station name is migrated when the character loads, so the altar does not need to be re-discovered.
+- No other behavior changes; the embedded asset bundle is byte-for-byte the shipped one.
+
 ## 1.3.37
 
 - Requires Skyheim Compat 1.1.29 (fixes duplicate ObjectDB key when returning to the main menu after disconnect).

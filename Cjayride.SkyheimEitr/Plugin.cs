@@ -9,7 +9,7 @@ namespace Cjayride.SkyheimEitr
     {
         public const string PluginGuid = "cjayride.SkyheimEitr";
         public const string PluginName = "Skyheim Eitr Shards";
-        public const string PluginVersion = "1.3.27";
+        public const string PluginVersion = "1.4.0";
 
         internal static Plugin Instance;
         Harmony _harmony;
@@ -20,6 +20,9 @@ namespace Cjayride.SkyheimEitr
             EitrShardDrops.Bind(Config);
             _harmony = new Harmony(PluginGuid);
             _harmony.PatchAll();
+            // skyheim's Awake runs first (BepInDependency), so its bundle is already loaded
+            // and the postfix above never fires this session. Do the altar work now.
+            SkyheimAssetPatches.Apply();
             Logger.LogInfo(PluginName + " " + PluginVersion + " — boss eitr amounts in this cfg, shipped with Skyheim Fix.");
         }
 

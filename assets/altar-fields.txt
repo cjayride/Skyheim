@@ -1,0 +1,12 @@
+# Asset edits for the Skyheim altar, merged from the Ukrainian translation contribution.
+# Format: <pathId>\t<field.path>\t<value>
+# Verified against _contrib\uk\skyheim.dll with tools\BundleDiff (semantic per-object diff).
+# pathIds are stable for the skyheim asset bundle (CAB-26f9c26236cfcb318584f39c70e6701e).
+
+# CraftingStation on the rune altar prefab: hardcoded English -> localization key.
+-1960670798214910700	m_name	$sh_piece_altar
+# SkyheimAltarContainer (the chest built into the altar): hardcoded English -> localization key.
+8663343444023749479	m_name	$sh_piece_altar_chest
+# The altar Piece's UsageTagFlags.Crafting (2) is NOT set here: that field is absent from
+# the Piece class version in our baseline bundle, so it is applied at runtime by
+# Cjayride.SkyheimEitr\SkyheimAssetPatches.cs.

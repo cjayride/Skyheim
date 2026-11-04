@@ -17,6 +17,12 @@ namespace Cjayride.SkyheimCompat
         private static bool _loggedHotbar;
         private static bool _loggedMissing;
 
+        // Tick runs every frame; these avoid allocating a delegate and an argument array per call.
+        private static readonly Func<int, Vector2i> HotbarLocation = i => new Vector2i(i, 0);
+        private static readonly object[] ActionRowArgs = new object[1];
+        private static int _lastActionRow = -1;
+        private static Func<int, Vector2i> _actionLocation;
+
         internal static void Init(Harmony harmony)
         {
             if (!Plugin.SenealUiLoaded())
@@ -56,19 +62,20 @@ namespace Cjayride.SkyheimCompat
                     return;
                 }
 
-                AttachSlotArray(_hotbarSlots?.GetValue(__instance) as Array, i => new Vector2i(i, 0));
+                AttachSlotArray(_hotbarSlots?.GetValue(__instance) as Array, HotbarLocation);
 
-                int actionRow = 0;
-                bool haveActionRow = false;
                 if (_actionRow != null)
                 {
-                    actionRow = (int)_actionRow.Invoke(null, new object[] { inv });
-                    haveActionRow = true;
-                }
+                    ActionRowArgs[0] = inv;
+                    int actionRow = (int)_actionRow.Invoke(null, ActionRowArgs);
+                    if (actionRow != _lastActionRow)
+                    {
+                        _lastActionRow = actionRow;
+                        int row = actionRow;
+                        _actionLocation = i => new Vector2i(i, row);
+                    }
 
-                if (haveActionRow)
-                {
-                    AttachSlotArray(_hotbarActions?.GetValue(__instance) as Array, i => new Vector2i(i, actionRow));
+                    AttachSlotArray(_hotbarActions?.GetValue(__instance) as Array, _actionLocation);
                 }
 
                 if (!_loggedHotbar)
@@ -116,6 +123,15 @@ namespace Cjayride.SkyheimCompat
         private static readonly FieldInfo LocationField =
             AccessTools.Field(typeof(SkyheimCooldownItem), "<Location>k__BackingField");
 
+        // HotkeyBar.Update and InventoryGrid.UpdateGui run every frame, and every slot used to
+        // walk its whole child hierarchy looking for the overlay. One cache lookup per slot per
+        // frame replaces that walk, which is where the UI frame cost was.
+        private static readonly Dictionary<Transform, SkyheimCooldownItem> Attached =
+            new Dictionary<Transform, SkyheimCooldownItem>();
+
+        private static FieldInfo _prefabField;
+        private static GameObject _prefab;
+
         internal static Vector2i GetLocation(SkyheimCooldownItem item)
         {
             return item == null ? new Vector2i(-1, -1) : item.Location;
@@ -133,8 +149,14 @@ namespace Cjayride.SkyheimCompat
                 return null;
             }
 
-            return AccessTools.Field(typeof(SkyheimCooldown), "_cooldownPrefab")
-                ?.GetValue(SkyheimCooldown.Instance) as GameObject;
+            if (_prefab)
+            {
+                return _prefab;
+            }
+
+            _prefabField = _prefabField ?? AccessTools.Field(typeof(SkyheimCooldown), "_cooldownPrefab");
+            _prefab = _prefabField?.GetValue(SkyheimCooldown.Instance) as GameObject;
+            return _prefab;
         }
 
         internal static void EnsureOn(Transform parent, Vector2i location)
@@ -144,25 +166,17 @@ namespace Cjayride.SkyheimCompat
                 return;
             }
 
+            if (Attached.TryGetValue(parent, out SkyheimCooldownItem cached) && cached)
+            {
+                Reposition(cached, location);
+                return;
+            }
+
             SkyheimCooldownItem existing = parent.GetComponentInChildren<SkyheimCooldownItem>(true);
             if (existing)
             {
-                GameObject existingGo = existing.gameObject;
-                if (existingGo && !existingGo.activeSelf)
-                {
-                    existingGo.SetActive(true);
-                }
-
-                Vector2i current = GetLocation(existing);
-                if (current.x != location.x || current.y != location.y)
-                {
-                    SetLocation(existing, location);
-                    if (SkyheimCooldown.Instance != null)
-                    {
-                        SkyheimCooldown.Instance.RegisterUpdateable(existing);
-                    }
-                }
-
+                Attached[parent] = existing;
+                Reposition(existing, location);
                 return;
             }
 
@@ -184,10 +198,30 @@ namespace Cjayride.SkyheimCompat
                 return;
             }
 
+            Attached[parent] = item;
             SetLocation(item, location);
             if (SkyheimCooldown.Instance != null)
             {
                 SkyheimCooldown.Instance.RegisterUpdateable(item);
+            }
+        }
+
+        private static void Reposition(SkyheimCooldownItem existing, Vector2i location)
+        {
+            GameObject existingGo = existing.gameObject;
+            if (existingGo && !existingGo.activeSelf)
+            {
+                existingGo.SetActive(true);
+            }
+
+            Vector2i current = GetLocation(existing);
+            if (current.x != location.x || current.y != location.y)
+            {
+                SetLocation(existing, location);
+                if (SkyheimCooldown.Instance != null)
+                {
+                    SkyheimCooldown.Instance.RegisterUpdateable(existing);
+                }
             }
         }
 

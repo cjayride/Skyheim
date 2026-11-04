@@ -1,5 +1,47 @@
 # Changelog
 
+## 1.2.0
+
+- Release line for altar/imbue restoration, Ukrainian + loose `skyheim.json`, SeneaL UI, Epic Loot imbue, and healing rune balance (Nature = amount, quality = duration) with full tooltip and predicted heal line.
+- Install together with Skyheim Fix 1.4.0.
+
+## 1.1.36
+
+- Rune of Healing item tooltip again lists the 10-yard ally range and appends \"Heals for X over Y\" from your Nature Magic and rune quality.
+
+## 1.1.35
+
+- Rune of Healing: Nature Magic increases total HP healed (+1% per skill point). Rune quality lengthens the HoT (8s at quality 1, +2s per quality by default). Tooltip updated in English, Polish, and Ukrainian.
+
+## 1.1.34
+
+- Rune of Healing tooltip (EN/PL/UA): Nature Magic increases total healing, not duration, matching Compat HoT balance.
+
+## 1.1.33
+
+- Epic Loot enchanted and legendary set pieces can be Eitr-imbued. Enchanting is not the same as Skyheim imbue; the altar no longer requires the item to still look like an unenchanted vanilla prefab.
+- Any helmet, chest, legs, or cape that is not already Eitr-imbued can be imbued (config: Altar imbue / Any Armor). Named Skyheim recipes still win when the base prefab is known.
+
+## 1.1.32
+
+- SeneaL's chest subtitle is rewritten every tick with the shard cost (it was immediately overwritten by "2 slots, used N").
+- Imbue starts when you close the Runic Chest under SeneaL UI. SeneaL never marks the container in-use, so Skyheim never saw a close before.
+- Closing the chest is still required to start. The subtitle says how many Eitr Shards that armor needs.
+
+## 1.1.31
+
+- Rune recipes require the Rune Altar crafting station (craft/upgrade only while standing at it). The altar click still opens the imbue chest, not the vanilla Craft list.
+- The Runic Chest world hover and imbue panel title show the localized chest name plus the altar directions.
+- English and Polish altar descriptions explain imbue-in-chest and craft-at-altar. Ukrainian text was already filled in.
+- Eitr Shard counts in the altar chest match by prefab or item name, so imbue still starts when dropPrefab is missing.
+
+## 1.1.30
+
+- Ukrainian! A community contribution adds a Ukrainian translation and fills gaps in English and Polish: 78 new strings in all three languages. Run the game in Ukrainian and Skyheim speaks it.
+- A skyheim.json placed next to skyheim.dll now overrides the built-in translations. Edit words or add a language without touching the mod. The file inside the mod stays as the fallback.
+- If the game language has no block in the translation file, English words stay on screen (the file gets a warning in the log) instead of blank names.
+- Hotbar and inventory rune cooldowns stop searching the UI tree every frame. The overlay is found once per slot; the attack path caches its rune lookup. Less UI lag on rigs that felt the old per-slot scan.
+
 ## 1.1.29
 
 - Returning to the character select after leaving a server no longer throws a duplicate ObjectDB key for Slime Encrusted Bone (`bonemass_drop`). Skyheim LoadItems is skipped when that item is already registered. Recipes and status effects are not re-run from FejdStartup, so they are not guarded here.

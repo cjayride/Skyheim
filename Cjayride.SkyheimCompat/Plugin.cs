@@ -19,7 +19,7 @@ namespace Cjayride.SkyheimCompat
     {
         public const string PluginGUID = "cjayride.skyheimcompat";
         public const string PluginName = "Cjayride Skyheim Compat";
-        public const string PluginVersion = "1.1.29";
+        public const string PluginVersion = "1.2.0";
         internal const string SenealGuid = "seneaL.valheim.ui";
 
         internal static Plugin Instance;
@@ -28,6 +28,8 @@ namespace Cjayride.SkyheimCompat
         private static bool _applying;
         private static bool _loggedSuccess;
         private static bool _languageApplied;
+        private static readonly Dictionary<GameObject, SkyheimItemData> RuneDataCache =
+            new Dictionary<GameObject, SkyheimItemData>();
 
         private void Awake()
         {
@@ -222,6 +224,13 @@ namespace Cjayride.SkyheimCompat
                 JSONNode root = JSON.Parse(ReadLocalizationJson());
                 string selectedLanguage = fromLanguageChange ? languageName : "English";
                 JSONNode language = root[selectedLanguage] ?? root["English"];
+                if (language != null && language.Count == 0)
+                {
+                    // A language the translation file has not filled in yet: keep English words
+                    // on screen instead of leaving the mod with no strings at all.
+                    language = root["English"];
+                }
+
                 if (language == null || language.Count == 0)
                 {
                     Instance?.Logger.LogWarning("Skyheim localization JSON had no usable language block.");
@@ -265,6 +274,15 @@ namespace Cjayride.SkyheimCompat
 
         private static string ReadLocalizationJson()
         {
+            // A loose skyheim.json next to skyheim.dll wins, so players can edit translations
+            // without repacking this mod. The copy embedded here is the fallback.
+            string skyheimDir = Path.GetDirectoryName(typeof(SkyheimPlugin).Assembly.Location);
+            string nextToSkyheim = Path.Combine(skyheimDir ?? string.Empty, "skyheim.json");
+            if (File.Exists(nextToSkyheim))
+            {
+                return File.ReadAllText(nextToSkyheim);
+            }
+
             Assembly assembly = Assembly.GetExecutingAssembly();
             string resourceName = Array.Find(assembly.GetManifestResourceNames(), name => name.EndsWith("skyheim.json", StringComparison.OrdinalIgnoreCase));
             if (!string.IsNullOrEmpty(resourceName))
@@ -272,13 +290,6 @@ namespace Cjayride.SkyheimCompat
                 using Stream stream = assembly.GetManifestResourceStream(resourceName);
                 using StreamReader reader = new StreamReader(stream);
                 return reader.ReadToEnd();
-            }
-
-            string skyheimDir = Path.GetDirectoryName(typeof(SkyheimPlugin).Assembly.Location);
-            string nextToSkyheim = Path.Combine(skyheimDir ?? string.Empty, "skyheim.json");
-            if (File.Exists(nextToSkyheim))
-            {
-                return File.ReadAllText(nextToSkyheim);
             }
 
             throw new FileNotFoundException("Embedded skyheim.json was missing and no loose skyheim.json was found next to skyheim.dll.");
@@ -297,7 +308,21 @@ namespace Cjayride.SkyheimCompat
                 prefab = ObjectDB.instance.GetItemPrefab(item.m_shared.m_name);
             }
 
-            return prefab != null ? prefab.GetComponent<SkyheimItemData>() : null;
+            if (prefab == null)
+            {
+                return null;
+            }
+
+            // StartAttack asks this for every swing. The component lives on the prefab, so the
+            // answer never changes; caching it keeps a native GetComponent out of the attack path.
+            // The cached value is re-checked because Unity destroys prefab objects on world unload.
+            if (!RuneDataCache.TryGetValue(prefab, out SkyheimItemData data) || !data)
+            {
+                data = prefab.GetComponent<SkyheimItemData>();
+                RuneDataCache[prefab] = data;
+            }
+
+            return data;
         }
     }
 

@@ -48,10 +48,6 @@ namespace Cjayride.SkyheimCompat
         private static System.Reflection.PropertyInfo SenealText;
         private static Container _container;
         private static SkyheimAltar _altar;
-        private static uint _revision = uint.MaxValue;
-        private static int _second = int.MinValue;
-        private static bool _finishedShown;
-        private static string _line;
         private static int _finishedId;
         private static float _finishedAt = -999f;
         private static string _shardPrefab;
@@ -71,24 +67,40 @@ namespace Cjayride.SkyheimCompat
             }
         }
 
+        internal static Container SenealContainer()
+        {
+            return SenealCurrent?.GetValue(null) as Container;
+        }
+
+        private static SkyheimAltar FindAltar(Container container)
+        {
+            SkyheimAltar altar = container.GetComponent<SkyheimAltar>();
+            if (!altar)
+            {
+                altar = container.GetComponentInParent<SkyheimAltar>();
+            }
+
+            if (!altar)
+            {
+                altar = container.GetComponentInChildren<SkyheimAltar>(true);
+            }
+
+            return altar;
+        }
+
         private static void SenealTick(object __instance)
         {
             if (SenealCurrent?.GetValue(null) is not Container container)
             {
                 _container = null;
+                _altar = null;
                 return;
             }
 
             if (container != _container)
             {
                 _container = container;
-                _altar = container.GetComponent<SkyheimAltar>();
-                if (!_altar)
-                {
-                    _altar = container.GetComponentInParent<SkyheimAltar>();
-                }
-
-                _revision = uint.MaxValue;
+                _altar = FindAltar(container);
             }
 
             if (!_altar)
@@ -96,34 +108,19 @@ namespace Cjayride.SkyheimCompat
                 return;
             }
 
-            int second = _altar.Processing ? Mathf.CeilToInt(_altar.TimeRemaining) : 0;
-            bool finished = JustFinished(_altar);
-            uint revision = container.m_lastRevision;
-            if (revision == _revision && second == _second && finished == _finishedShown)
-            {
-                return;
-            }
-
-            _revision = revision;
-            _second = second;
-            _finishedShown = finished;
             string line = SenealStatus(_altar);
-            if (line == _line)
+            object sub = SenealSub?.GetValue(__instance);
+            if (sub == null)
             {
                 return;
             }
 
-            _line = line;
             if (SenealText == null)
             {
-                object sub = SenealSub?.GetValue(__instance);
-                SenealText = sub?.GetType().GetProperty("text");
-                SenealText?.SetValue(sub, line, null);
-                return;
+                SenealText = sub.GetType().GetProperty("text");
             }
 
-            object label = SenealSub?.GetValue(__instance);
-            SenealText.SetValue(label, line, null);
+            SenealText?.SetValue(sub, line, null);
         }
 
         private static string SenealStatus(SkyheimAltar altar)
@@ -136,14 +133,21 @@ namespace Cjayride.SkyheimCompat
             SkyheimArmorRecipe recipe = altar != null ? altar.GetActiveRecipe() : null;
             if (recipe == null)
             {
-                return HasImbuedArmor(altar) ? (JustFinished(altar) ? "Finished adding Eitr" : "Item already imbued") : "Put armor in";
+                if (HasImbuedArmor(altar))
+                {
+                    return JustFinished(altar) ? "Finished adding Eitr" : "Item already imbued";
+                }
+
+                return HasAnyArmor(altar)
+                    ? "This armor cannot be imbued"
+                    : "Put armor in, then Eitr Shards";
             }
 
             int have = CountShards(altar);
             string wait = ShortWait(recipe.CraftingTime);
             return have < recipe.EitrShardsRequired
-                ? "Need " + recipe.EitrShardsRequired + ", have " + have + ", " + wait
-                : "Close chest, " + wait;
+                ? "Need " + recipe.EitrShardsRequired + " Eitr Shards (have " + have + "), " + wait
+                : "Close chest to imbue, " + wait;
         }
 
         internal static string Status(SkyheimAltar altar)
@@ -193,6 +197,29 @@ namespace Cjayride.SkyheimCompat
             return altar && altar.GetInstanceID() == _finishedId && Time.unscaledTime - _finishedAt < 15f;
         }
 
+        private static bool HasAnyArmor(SkyheimAltar altar)
+        {
+            Inventory inventory = altar != null && altar.Container ? altar.Container.GetInventory() : null;
+            if (inventory == null)
+            {
+                return false;
+            }
+
+            foreach (ItemDrop.ItemData item in inventory.GetAllItems())
+            {
+                ItemDrop.ItemData.ItemType type = item?.m_shared != null ? item.m_shared.m_itemType : ItemDrop.ItemData.ItemType.None;
+                if (type == ItemDrop.ItemData.ItemType.Chest
+                    || type == ItemDrop.ItemData.ItemType.Helmet
+                    || type == ItemDrop.ItemData.ItemType.Legs
+                    || type == ItemDrop.ItemData.ItemType.Shoulder)
+                {
+                    return true;
+                }
+            }
+
+            return false;
+        }
+
         private static bool HasImbuedArmor(SkyheimAltar altar)
         {
             Inventory inventory = altar != null && altar.Container ? altar.Container.GetInventory() : null;
@@ -212,6 +239,13 @@ namespace Cjayride.SkyheimCompat
             return false;
         }
 
+        private static string SharedNameOf(string prefabName)
+        {
+            GameObject prefab = ObjectDB.instance != null ? ObjectDB.instance.GetItemPrefab(prefabName) : null;
+            ItemDrop drop = prefab != null ? prefab.GetComponent<ItemDrop>() : null;
+            return drop?.m_itemData?.m_shared?.m_name;
+        }
+
         private static int CountShards(SkyheimAltar altar)
         {
             if (_shardPrefab == null)
@@ -227,9 +261,18 @@ namespace Cjayride.SkyheimCompat
             }
 
             int count = 0;
+            string sharedName = SharedNameOf(_shardPrefab);
             foreach (ItemDrop.ItemData item in inventory.GetAllItems())
             {
                 if (item?.m_dropPrefab != null && item.m_dropPrefab.name == _shardPrefab)
+                {
+                    count += item.m_stack;
+                    continue;
+                }
+
+                if (item?.m_shared != null
+                    && (item.m_shared.m_name == "$sh_item_eitr_shard_drop"
+                        || (sharedName != null && item.m_shared.m_name == sharedName)))
                 {
                     count += item.m_stack;
                 }

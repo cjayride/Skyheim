@@ -1,15 +1,20 @@
 # Builds Thunderstore zips with the correct per-package icon and CHANGELOG.md.
 param(
-    [string] $CompatVersion = "1.1.29",
-    [string] $FixVersion = "1.3.37"
+    [string] $CompatVersion = "1.2.0",
+    [string] $FixVersion = "1.4.0"
 )
 
 $ErrorActionPreference = "Stop"
-$root = $PSScriptRoot
+$root = if ($PSScriptRoot) { $PSScriptRoot } else { (Get-Location).ProviderPath }
 $out = Join-Path $root "dist\upload"
+
+# localization\skyheim.json is the source of truth; dist\skyheim.json is the packaged copy.
+Copy-Item (Join-Path $root "localization\skyheim.json") (Join-Path $root "dist\skyheim.json") -Force
 
 dotnet build (Join-Path $root "Cjayride.SkyheimEitr\Cjayride.SkyheimEitr.csproj") -c Release
 if ($LASTEXITCODE -ne 0) { throw "SkyheimEitr build failed" }
+dotnet build (Join-Path $root "Cjayride.SkyheimCompat\Cjayride.SkyheimCompat.csproj") -c Release
+if ($LASTEXITCODE -ne 0) { throw "SkyheimCompat build failed" }
 
 $il = Join-Path $root "tools\ilrepack\pkg\tools\ILRepack.exe"
 $bep = "D:\SteamLibrary\steamapps\common\Valheim\BepInEx\core"
@@ -18,12 +23,19 @@ if (-not (Test-Path (Join-Path $bep "BepInEx.dll"))) {
 }
 $game = "D:\SteamLibrary\steamapps\common\Valheim\valheim_Data\Managed"
 $repackDir = Join-Path $root "dist\repack"
+$tmpDir = Join-Path $root "dist\tmp"
 New-Item -ItemType Directory -Force -Path $repackDir | Out-Null
+New-Item -ItemType Directory -Force -Path $tmpDir | Out-Null
+$env:TEMP = $tmpDir
+$env:TMP = $tmpDir
 # Output file name becomes the assembly name. The asset bundle looks up scripts in "skyheim".
 $merged = Join-Path $repackDir "skyheim.dll"
 if (Test-Path $merged) { Remove-Item $merged -Force }
 & $il /lib:$bep /lib:$game /out:$merged (Join-Path $root "dist\skyheim.dll") (Join-Path $root "dist\eitr\Cjayride.SkyheimEitr.dll")
 if ($LASTEXITCODE -ne 0) { throw "ILRepack failed" }
+if ((Get-Item $merged).Length -lt 4500000 -or (Get-Item $merged).Length -gt 5600000) {
+    throw "Repacked skyheim.dll has an unexpected size: $((Get-Item $merged).Length) bytes"
+}
 
 Add-Type -Path "$env:USERPROFILE\.nuget\packages\mono.cecil\0.11.6\lib\net40\Mono.Cecil.dll"
 $resolver = New-Object Mono.Cecil.DefaultAssemblyResolver
@@ -39,6 +51,22 @@ foreach ($attr in $plugin.CustomAttributes) {
 }
 $asm.Write()
 $asm.Dispose()
+
+# The merged DLL must still carry the asset bundle, and must carry the Eitr altar patches.
+Add-Type -Path "$env:USERPROFILE\.nuget\packages\mono.cecil\0.11.6\lib\net40\Mono.Cecil.dll"
+$check = [Mono.Cecil.AssemblyDefinition]::ReadAssembly($merged)
+$resNames = @($check.MainModule.Resources | ForEach-Object { $_.Name })
+$typeNames = @($check.MainModule.Types | ForEach-Object { $_.Name })
+$check.Dispose()
+if ($resNames -notcontains "skyheim.resources.skyheim") {
+    throw "Repacked skyheim.dll lost its asset bundle resource: $($resNames -join ', ')"
+}
+foreach ($type in @("SkyheimAssetPatches", "AltarIconPatch", "SkillIconSprites")) {
+    if ($typeNames -notcontains $type) { throw "Repacked skyheim.dll is missing $type" }
+}
+foreach ($res in @("rune-atlas.txt", "skill_fire_magic.png", "skill_frost_magic.png", "skill_holy_magic.png", "skill_nature_magic.png")) {
+    if ($resNames -notcontains $res) { throw "Repacked skyheim.dll is missing $res : $($resNames -join ', ')" }
+}
 
 function New-TsZip {
     param($Stage, $Zip, $Files)
