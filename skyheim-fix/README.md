@@ -33,7 +33,11 @@ Features include:
 
 ---
 
-### Latest Update (1.4.0)
+### Latest Update (1.4.1)
+
+- Requires Skyheim Compat 1.2.1. Windfury proc swirls show on female player models.
+
+### Previous (1.4.0)
 
 - Requires Skyheim Compat 1.2.0. Install both packages together (altar, imbue, icons, i18n, healing, Epic Loot imbue).
 

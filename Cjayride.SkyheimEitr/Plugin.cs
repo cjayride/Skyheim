@@ -9,7 +9,7 @@ namespace Cjayride.SkyheimEitr
     {
         public const string PluginGuid = "cjayride.SkyheimEitr";
         public const string PluginName = "Skyheim Eitr Shards";
-        public const string PluginVersion = "1.4.0";
+        public const string PluginVersion = "1.4.1";
 
         internal static Plugin Instance;
         Harmony _harmony;

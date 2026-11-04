@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.2.1
+
+- Windfury proc swirls and hit sound play on female player models as well as male. The original effect list was male-only (variant 0).
+
 ## 1.2.0
 
 - Release line for altar/imbue restoration, Ukrainian + loose `skyheim.json`, SeneaL UI, Epic Loot imbue, and healing rune balance (Nature = amount, quality = duration) with full tooltip and predicted heal line.

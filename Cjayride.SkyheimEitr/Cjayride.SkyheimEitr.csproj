@@ -7,7 +7,7 @@
     <Nullable>disable</Nullable>
     <AssemblyName>Cjayride.SkyheimEitr</AssemblyName>
     <RootNamespace>Cjayride.SkyheimEitr</RootNamespace>
-    <Version>1.4.0</Version>
+    <Version>1.4.1</Version>
     <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
     <OutputPath>$(MSBuildThisFileDirectory)..\dist\eitr\</OutputPath>
     <BepInExCore>$(VALHEIM_INSTALL)\BepInEx\core</BepInExCore>

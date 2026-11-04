@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.4.1
+
+- Requires Skyheim Compat 1.2.1 (Windfury proc VFX on female characters).
+
 ## 1.4.0
 
 - Requires Skyheim Compat 1.2.0. Paired release: Rune Altar imbue chest, rune crafting at the altar, skill icons, translation/i18n assets, and Compat fixes through healing tooltips.

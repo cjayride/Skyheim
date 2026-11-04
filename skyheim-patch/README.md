@@ -20,7 +20,11 @@ If makail ever releases an official update, **please switch back to the original
 
 ---
 
-### Latest Update (1.2.0)
+### Latest Update (1.2.1)
+
+- Windfury proc VFX and hit sound play on female characters as well as male.
+
+### Previous (1.2.0)
 
 - Paired release with Skyheim Fix 1.4.0: altar/imbue fixes, Ukrainian and editable translations, SeneaL chest + imbue, Epic Loot armor imbue, healing rune balance and tooltips.
 
