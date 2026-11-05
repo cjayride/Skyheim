@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.4.2
+
+- Requires Skyheim Compat 1.2.2 (translated Rune Altar name and Misc build tab).
+
 ## 1.4.1
 
 - Requires Skyheim Compat 1.2.1 (Windfury proc VFX on female characters).

@@ -20,7 +20,11 @@ If makail ever releases an official update, **please switch back to the original
 
 ---
 
-### Latest Update (1.2.1)
+### Latest Update (1.2.2)
+
+- Rune Altar name follows the translation file in the hammer menu and in the world. It is listed under Misc.
+
+### Previous (1.2.1)
 
 - Windfury proc VFX and hit sound play on female characters as well as male.
 

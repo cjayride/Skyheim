@@ -16,44 +16,133 @@ namespace Cjayride.SkyheimCompat
     internal static class AltarChestText
     {
         private const string ChestNameKey = "$sh_piece_altar_chest";
+        private const string PieceNameKey = "$sh_piece_altar";
+        private const string PieceNameLiteral = "Rune Altar";
         private const string DirectionsKey = "$sh_piece_altar_desc";
         private static readonly FieldInfo HeaderField = AccessTools.Field(typeof(SkyheimAltarPanel), "_header");
         private static bool _named;
 
         internal static void ApplyNames()
         {
+            int chests = 0;
+            int pieces = 0;
+
             object[] objects = AccessTools.TypeByName("AssetManager") is System.Type manager
                 ? AccessTools.Field(manager, "AssetBundleObjects")?.GetValue(null) as object[]
                 : null;
-            if (objects == null || objects.Length == 0)
+            if (objects != null)
             {
-                return;
+                foreach (object obj in objects)
+                {
+                    if (ApplyChest(obj as SkyheimAltarContainer) || ApplyChest(ComponentOn(obj as GameObject)))
+                    {
+                        chests++;
+                    }
+
+                    if (ApplyPiece(obj as Piece) || ApplyPiece(PieceOn(obj as GameObject)))
+                    {
+                        pieces++;
+                    }
+                }
             }
 
-            int chests = 0;
-            foreach (object obj in objects)
+            if (ZNetScene.instance?.m_prefabs != null)
             {
-                SkyheimAltarContainer chest = obj as SkyheimAltarContainer;
-                if (chest == null)
+                foreach (GameObject prefab in ZNetScene.instance.m_prefabs)
                 {
-                    GameObject go = obj as GameObject;
-                    chest = go != null ? go.GetComponent<SkyheimAltarContainer>() : null;
-                }
+                    if (ApplyChest(ComponentOn(prefab)))
+                    {
+                        chests++;
+                    }
 
-                if (chest == null)
-                {
-                    continue;
+                    if (ApplyPiece(PieceOn(prefab)))
+                    {
+                        pieces++;
+                    }
                 }
-
-                chest.m_name = ChestNameKey;
-                chests++;
             }
 
-            if (!_named && chests > 0)
+            if (!_named && (chests > 0 || pieces > 0))
             {
                 _named = true;
-                Plugin.Log($"Rune chest names use {ChestNameKey} ({chests} container(s)).");
+                Plugin.Log($"Rune Altar uses {PieceNameKey} in Misc; chest uses {ChestNameKey} ({pieces} piece(s), {chests} container(s)).");
             }
+        }
+
+        private static SkyheimAltarContainer ComponentOn(GameObject go)
+        {
+            return go != null ? go.GetComponent<SkyheimAltarContainer>() : null;
+        }
+
+        private static Piece PieceOn(GameObject go)
+        {
+            if (!go)
+            {
+                return null;
+            }
+
+            Piece piece = go.GetComponent<Piece>();
+            return piece ? piece : go.GetComponentInChildren<Piece>(true);
+        }
+
+        private static bool ApplyChest(SkyheimAltarContainer chest)
+        {
+            if (chest == null)
+            {
+                return false;
+            }
+
+            chest.m_name = ChestNameKey;
+            return true;
+        }
+
+        private static bool ApplyPiece(Piece piece)
+        {
+            if (!piece || !IsAltarPiece(piece))
+            {
+                return false;
+            }
+
+            piece.m_name = PieceNameKey;
+            piece.m_description = DirectionsKey;
+            piece.m_category = Piece.PieceCategory.Misc;
+            // UsageTagFlags.Crafting (2) made clicking the altar open the vanilla Craft
+            // list instead of the imbue chest. Misc still puts it on a hammer tab.
+            piece.m_usage = Piece.UsageTagFlags.Misc;
+            return true;
+        }
+
+        private static bool IsAltarPiece(Piece piece)
+        {
+            if (piece.m_name == PieceNameLiteral || piece.m_name == PieceNameKey)
+            {
+                return true;
+            }
+
+            CraftingStation station = piece.GetComponent<CraftingStation>();
+            if (!station)
+            {
+                station = piece.GetComponentInChildren<CraftingStation>(true);
+            }
+
+            if (!station)
+            {
+                return false;
+            }
+
+            string name = station.m_name;
+            return name == PieceNameLiteral || name == PieceNameKey;
+        }
+
+        private static bool IsAltarStation(CraftingStation station)
+        {
+            if (!station)
+            {
+                return false;
+            }
+
+            string name = station.m_name;
+            return name == PieceNameLiteral || name == PieceNameKey;
         }
 
         [HarmonyPatch(typeof(Container), nameof(Container.GetHoverText))]
@@ -92,6 +181,29 @@ namespace Cjayride.SkyheimCompat
             }
 
             header.text = Localization.instance.Localize(ChestNameKey);
+        }
+
+        [HarmonyPatch(typeof(CraftingStation), nameof(CraftingStation.GetHoverName))]
+        [HarmonyPostfix]
+        private static void StationHoverName_Postfix(CraftingStation __instance, ref string __result)
+        {
+            if (IsAltarStation(__instance))
+            {
+                __result = PieceNameKey;
+            }
+        }
+
+        [HarmonyPatch(typeof(CraftingStation), nameof(CraftingStation.GetHoverText))]
+        [HarmonyPostfix]
+        private static void StationHoverText_Postfix(CraftingStation __instance, ref string __result)
+        {
+            if (!IsAltarStation(__instance) || Localization.instance == null)
+            {
+                return;
+            }
+
+            __result = Localization.instance.Localize(
+                PieceNameKey + "\n[<color=yellow><b>$KEY_Use</b></color>] $piece_use");
         }
     }
 }

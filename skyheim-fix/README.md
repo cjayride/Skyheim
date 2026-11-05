@@ -33,7 +33,11 @@ Features include:
 
 ---
 
-### Latest Update (1.4.1)
+### Latest Update (1.4.2)
+
+- Requires Skyheim Compat 1.2.2. Rune Altar name is translated again and the piece is listed under Misc.
+
+### Previous (1.4.1)
 
 - Requires Skyheim Compat 1.2.1. Windfury proc swirls show on female player models.
 

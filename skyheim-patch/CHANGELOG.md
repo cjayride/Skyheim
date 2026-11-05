@@ -1,5 +1,10 @@
 # Changelog
 
+## 1.2.2
+
+- Rune Altar name uses the translation file in the hammer menu and on world hover (English / Polish / Ukrainian).
+- The altar is listed under the Misc build tab. It is not tagged as a vanilla Crafting-usage piece, so clicking it still opens the imbue chest.
+
 ## 1.2.1
 
 - Windfury proc swirls and hit sound play on female player models as well as male. The original effect list was male-only (variant 0).
