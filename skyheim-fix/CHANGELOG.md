@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.4.3
+
+- Requires Skyheim Compat 1.2.5. Updated `skyheim.json` (craft UI **Rune Altar** localization key). Pair with Compat for hidden-rune VFX config and Harmony load fix.
+
 ## 1.4.2
 
 - Requires Skyheim Compat 1.2.2 (translated Rune Altar name and Misc build tab).

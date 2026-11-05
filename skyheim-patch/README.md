@@ -20,7 +20,11 @@ If makail ever releases an official update, **please switch back to the original
 
 ---
 
-### Latest Update (1.2.2)
+### Latest Update (1.2.5)
+
+- Craft tab and hammer UI translate **Rune Altar** while WackyDB keeps the literal station id. Optional config disables rune VFX when hiding weapon with R (default off). Fixes Compat load (Harmony patch).
+
+### Previous (1.2.2)
 
 - Rune Altar name follows the translation file in the hammer menu and in the world. It is listed under Misc.
 

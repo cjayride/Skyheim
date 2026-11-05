@@ -33,7 +33,11 @@ Features include:
 
 ---
 
-### Latest Update (1.4.2)
+### Latest Update (1.4.3)
+
+- Requires Skyheim Compat 1.2.5. Translation file update for craft/hammer **Rune Altar** label; install matching Compat.
+
+### Previous (1.4.2)
 
 - Requires Skyheim Compat 1.2.2. Rune Altar name is translated again and the piece is listed under Misc.
 

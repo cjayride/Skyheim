@@ -1,5 +1,17 @@
 # Changelog
 
+## 1.2.5
+
+- Fix Harmony patch on `VisEquipment.AttachBackItem` (correct parameter name `hash`) so Compat loads and hidden-rune VFX config works.
+
+## 1.2.4
+
+- Craft tab and hammer build UI translate **Rune Altar** via localization while `CraftingStation.m_name` stays the literal `Rune Altar` for WackyDB and recipe station checks.
+
+## 1.2.3
+
+- Config **Runes → Show Vfx When Weapon Hidden** (default **off**). Stops rune glow/particles on your back when you hide a rune with R; hand-held VFX unchanged. Set to true to restore the old shoulder/back VFX.
+
 ## 1.2.2
 
 - Rune Altar name uses the translation file in the hammer menu and on world hover (English / Polish / Ukrainian).

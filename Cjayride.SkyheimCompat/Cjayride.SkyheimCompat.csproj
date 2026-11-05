@@ -8,7 +8,7 @@
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     <AssemblyName>Cjayride.SkyheimCompat</AssemblyName>
     <RootNamespace>Cjayride.SkyheimCompat</RootNamespace>
-    <Version>1.2.2</Version>
+    <Version>1.2.5</Version>
     <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
     <OutputPath>$(MSBuildThisFileDirectory)..\dist\compat\</OutputPath>
     <BepInExCore>$(VALHEIM_INSTALL)\BepInEx\core</BepInExCore>
@@ -63,6 +63,10 @@
     </Reference>
     <Reference Include="UnityEngine.AudioModule">
       <HintPath>$(VALHEIM_INSTALL)\valheim_Data\Managed\UnityEngine.AudioModule.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
+    <Reference Include="UnityEngine.ParticleSystemModule">
+      <HintPath>$(VALHEIM_INSTALL)\valheim_Data\Managed\UnityEngine.ParticleSystemModule.dll</HintPath>
       <Private>false</Private>
     </Reference>
     <Reference Include="skyheim">

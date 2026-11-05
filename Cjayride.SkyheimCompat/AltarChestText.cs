@@ -17,6 +17,8 @@ namespace Cjayride.SkyheimCompat
     {
         private const string ChestNameKey = "$sh_piece_altar_chest";
         private const string PieceNameKey = "$sh_piece_altar";
+        /// <summary>WackyDB / recipes / HaveRequirements use this literal on CraftingStation.m_name.
+        /// UI calls Localization.Localize on that string — see skyheim.json key "Rune Altar".</summary>
         private const string PieceNameLiteral = "Rune Altar";
         private const string DirectionsKey = "$sh_piece_altar_desc";
         private static readonly FieldInfo HeaderField = AccessTools.Field(typeof(SkyheimAltarPanel), "_header");
