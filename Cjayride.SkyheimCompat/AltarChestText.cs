@@ -185,6 +185,73 @@ namespace Cjayride.SkyheimCompat
             header.text = Localization.instance.Localize(ChestNameKey);
         }
 
+        /// <summary>
+        /// InventoryGui.UpdateRecipe does Localize(CraftingStation.m_name). The station id
+        /// must stay the literal "Rune Altar" for WackyDB / HaveRequirements, and vanilla
+        /// Localize only substitutes $keys, so the craft-panel title stayed English.
+        /// </summary>
+        private static bool _rewritingLiteral;
+
+        [HarmonyPatch(typeof(Localization), nameof(Localization.Localize), typeof(string))]
+        [HarmonyPostfix]
+        private static void LocalizeLiteral_Postfix(ref string __result)
+        {
+            RewriteAltarLiteral(ref __result);
+        }
+
+        [HarmonyPatch(typeof(Localization), nameof(Localization.Localize), typeof(string), typeof(string[]))]
+        [HarmonyPostfix]
+        private static void LocalizeLiteralArgs_Postfix(ref string __result)
+        {
+            RewriteAltarLiteral(ref __result);
+        }
+
+        private static void RewriteAltarLiteral(ref string result)
+        {
+            if (_rewritingLiteral || string.IsNullOrEmpty(result)
+                || result.IndexOf(PieceNameLiteral, System.StringComparison.Ordinal) < 0
+                || Localization.instance == null)
+            {
+                return;
+            }
+
+            _rewritingLiteral = true;
+            try
+            {
+                string localized = Localization.instance.Localize(PieceNameKey);
+                if (!string.IsNullOrEmpty(localized) && localized != PieceNameKey)
+                {
+                    result = result.Replace(PieceNameLiteral, localized);
+                }
+            }
+            finally
+            {
+                _rewritingLiteral = false;
+            }
+        }
+
+        [HarmonyPatch(typeof(InventoryGui), "UpdateRecipe")]
+        [HarmonyPostfix]
+        private static void UpdateRecipe_Postfix(InventoryGui __instance)
+        {
+            Player player = Player.m_localPlayer;
+            CraftingStation station = player != null ? player.GetCurrentCraftingStation() : null;
+            if (!IsAltarStation(station) || Localization.instance == null)
+            {
+                return;
+            }
+
+            object nameLabel = AccessTools.Field(typeof(InventoryGui), "m_craftingStationName")?.GetValue(__instance);
+            if (nameLabel == null)
+            {
+                return;
+            }
+
+            AccessTools.Property(nameLabel.GetType(), "text")?.SetValue(
+                nameLabel,
+                Localization.instance.Localize(PieceNameKey));
+        }
+
         [HarmonyPatch(typeof(CraftingStation), nameof(CraftingStation.GetHoverName))]
         [HarmonyPostfix]
         private static void StationHoverName_Postfix(CraftingStation __instance, ref string __result)

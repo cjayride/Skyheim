@@ -20,7 +20,11 @@ If makail ever releases an official update, **please switch back to the original
 
 ---
 
-### Latest Update (1.2.5)
+### Latest Update (1.2.6)
+
+- The Rune Altar craft-panel title uses the translation file (including Ukrainian). Station id stays `Rune Altar` for recipes.
+
+### Previous (1.2.5)
 
 - Craft tab and hammer UI translate **Rune Altar** while WackyDB keeps the literal station id. Optional config disables rune VFX when hiding weapon with R (default off). Fixes Compat load (Harmony patch).
 

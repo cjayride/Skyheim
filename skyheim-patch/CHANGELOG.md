@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.2.6
+
+- Craft panel title for the Rune Altar uses the translation file (Ukrainian/Polish/English). Station id stays `Rune Altar` for recipes.
+
 ## 1.2.5
 
 - Fix Harmony patch on `VisEquipment.AttachBackItem` (correct parameter name `hash`) so Compat loads and hidden-rune VFX config works.

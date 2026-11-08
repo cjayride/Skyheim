@@ -33,7 +33,11 @@ Features include:
 
 ---
 
-### Latest Update (1.4.3)
+### Latest Update (1.4.4)
+
+- Requires Skyheim Compat 1.2.6. Craft panel **Rune Altar** title follows the game language.
+
+### Previous (1.4.3)
 
 - Requires Skyheim Compat 1.2.5. Translation file update for craft/hammer **Rune Altar** label; install matching Compat.
 

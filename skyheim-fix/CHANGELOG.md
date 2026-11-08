@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.4.4
+
+- Requires Skyheim Compat 1.2.6. Craft panel **Rune Altar** title follows the game language.
+
 ## 1.4.3
 
 - Requires Skyheim Compat 1.2.5. Updated `skyheim.json` (craft UI **Rune Altar** localization key). Pair with Compat for hidden-rune VFX config and Harmony load fix.
