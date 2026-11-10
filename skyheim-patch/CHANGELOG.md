@@ -1,5 +1,18 @@
 # Changelog
 
+## 1.2.9
+
+- `[Cooldown overlay] OnSenealHotbar` default is **true** again (the 1.2.6 behaviour). 1.2.7 turned it off claiming Skyheim's overlay was stacking a second square and centred number on SeneaL UI's hotbar. The 1.2.8 self-reporting strip settled it from the log: **0 overlays found on the SeneaL slots** and **0 attaches** — Skyheim never attached there in the first place, so 1.2.7 changed nothing on the custom HUD and the attribution was a guess. The gate and strip stay (set false to let SeneaL HUD Layout own the space), and both paths now report counts.
+- Attach path logs `Skyheim cooldown overlays on SeneaL UI's hotbar/action slots: N of M slots carry one.` — the claim is now checkable from `LogOutput.log` instead of inferred.
+
+## 1.2.8
+
+- The SeneaL-slot strip (1.2.7) now LOGS once with the number of Skyheim cooldown overlays it removed from SeneaL UI's hotbar/action slots. 1.2.7's strip was silent, so the claim "Skyheim's overlay was stacking a second square and number on the custom HUD" was inferred from the code and could not be confirmed from the log. It now proves itself: the line appears (Skyheim was really attaching there) or never appears (it was not).
+
+## 1.2.7
+
+- SeneaL hotbar/action slots: Skyheim's own cooldown square + centred number no longer attach there (new `[Cooldown overlay] OnSenealHotbar`, default false). SeneaL HUD Layout draws the hotbar cooldown timer; two overlays stacked as a visible "border ring" around its inset square, and Skyheim's centred Arial number covered HUD Layout's offset one. Existing clones are destroyed on load. The inventory grid's rune-cooldown overlays are unchanged.
+
 ## 1.2.6
 
 - Craft panel title for the Rune Altar uses the translation file (Ukrainian/Polish/English). Station id stays `Rune Altar` for recipes.

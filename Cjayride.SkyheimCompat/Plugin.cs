@@ -19,7 +19,7 @@ namespace Cjayride.SkyheimCompat
     {
         public const string PluginGUID = "cjayride.skyheimcompat";
         public const string PluginName = "Cjayride Skyheim Compat";
-        public const string PluginVersion = "1.2.6";
+        public const string PluginVersion = "1.2.9";
         internal const string SenealGuid = "seneaL.valheim.ui";
 
         internal static Plugin Instance;
@@ -45,6 +45,7 @@ namespace Cjayride.SkyheimCompat
             MagicSkillBalance.Bind(Config);
             HealBalance.Bind(Config);
             RuneAuraRadius.Bind(Config);
+            SenealCooldownOverlay.Bind(Config);
             HealDiagnostics.Bind(Config);
             AltarImbueCompat.Bind(Config);
             AltarCostHint.ApplySeneal(_harmony);
