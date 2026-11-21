@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.4.5
+
+- Requires Skyheim Compat **1.2.12**. Same `skyheim.dll` as 1.4.4; Thunderstore dependency line only so Fix installs pull current Compat (eitr billing, cooldown UI, rune drops, Moder scale config).
+
 ## 1.4.4
 
 - Requires Skyheim Compat 1.2.6. Craft panel **Rune Altar** title follows the game language.
