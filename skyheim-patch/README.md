@@ -20,7 +20,20 @@ If makail ever releases an official update, **please switch back to the original
 
 ---
 
-### Latest Update (1.2.6)
+### Latest Update (1.2.12)
+
+- Rune spells spend the tooltip eitr cost once (no double charge).
+
+### Previous (1.2.11)
+
+- Moder no longer drops Skyheim's unused Dragon Scale unless `[Drops] ModerDragonScale` is turned on. Trophy and Dragon Tears are unchanged.
+
+### Previous (1.2.10)
+
+- Rune cooldown timers stay on the player's inventory and hotbar. They no longer appear on Adventure Backpacks slots that share the same grid coordinates.
+- Unique runes (Rune of Travel included) are taken out of inventory when dropped onto the ground, so throwing one no longer duplicates it.
+
+### Previous (1.2.6)
 
 - The Rune Altar craft-panel title uses the translation file (including Ukrainian). Station id stays `Rune Altar` for recipes.
 

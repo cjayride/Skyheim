@@ -19,7 +19,7 @@ namespace Cjayride.SkyheimCompat
     {
         public const string PluginGUID = "cjayride.skyheimcompat";
         public const string PluginName = "Cjayride Skyheim Compat";
-        public const string PluginVersion = "1.2.9";
+        public const string PluginVersion = "1.2.12";
         internal const string SenealGuid = "seneaL.valheim.ui";
 
         internal static Plugin Instance;
@@ -52,6 +52,7 @@ namespace Cjayride.SkyheimCompat
             ImmolateAuraGuard.Bind(Config);
             HiddenRuneBackVfx.Bind(Config);
             SkyheimAudio.Bind(Config);
+            ModerScaleDrop.Bind(Config);
             _harmony.PatchAll();
             SkyheimAudio.Apply(_harmony);
             ImmolateAuraGuard.Apply(_harmony);
@@ -357,9 +358,18 @@ namespace Cjayride.SkyheimCompat
     [HarmonyPatch(typeof(SkyheimItemData), "Awake")]
     internal static class SkyheimItemData_Awake_Patch
     {
-        private static void Prefix()
+        private static bool Prefix(SkyheimItemData __instance)
         {
             Plugin.ApplySkyheimLocalization();
+            // World drops are Instantiated clones. Original Awake rewrites ItemDrop shared
+            // description on that clone; skip it so a dropped rune cannot mutate/split item data.
+            if (__instance != null && __instance.gameObject != null
+                && __instance.gameObject.name.IndexOf("(Clone)", StringComparison.Ordinal) >= 0)
+            {
+                return false;
+            }
+
+            return true;
         }
     }
 
@@ -564,22 +574,26 @@ namespace Cjayride.SkyheimCompat
     }
 
     /// <summary>
-    /// Vanilla spends attack eitr only after the animator enters the attack state.
-    /// Skyheim buff runes (Warmth and the other status casts) never enter that state,
-    /// so the cost is checked and then never taken, and every click still grants skill XP.
-    /// Charge the eitr when the cast is accepted, and suppress the later vanilla charge
-    /// so projectile runes are not billed twice.
+    /// Vanilla only checks eitr in Attack.Start (TryUseEitr) and spends it later in
+    /// Attack.Update / projectile burst. Buff runes never enter that state, so they
+    /// paid nothing. Compat bills once at Start, then skips further UseEitr for that
+    /// Attack so projectile runes are not charged a second time.
     /// </summary>
     [HarmonyPatch]
     internal static class Attack_SkyheimEitrSpend_Patch
     {
         private static readonly HashSet<Attack> Prepaid = new HashSet<Attack>();
-        private static readonly Dictionary<Attack, float> HiddenCost = new Dictionary<Attack, float>();
 
         [HarmonyPatch(typeof(Attack), nameof(Attack.Start))]
         [HarmonyPostfix]
         private static void Start_Postfix(Attack __instance, ref bool __result)
         {
+            if (__instance != null)
+            {
+                Prepaid.Remove(__instance);
+                ClearPrepaid(__instance.m_character);
+            }
+
             if (!__result || __instance?.m_character == null || __instance.m_weapon == null)
             {
                 return;
@@ -600,34 +614,60 @@ namespace Cjayride.SkyheimCompat
             Prepaid.Add(__instance);
         }
 
-        [HarmonyPatch(typeof(Attack), nameof(Attack.Update))]
-        [HarmonyPrefix]
-        private static void Update_Prefix(Attack __instance)
+        [HarmonyPatch(typeof(Attack), nameof(Attack.Stop))]
+        [HarmonyPostfix]
+        private static void Stop_Postfix(Attack __instance)
         {
-            if (!Prepaid.Contains(__instance))
-            {
-                return;
-            }
-
-            if (__instance.m_wasInAttack || __instance.m_attackDone)
-            {
-                Prepaid.Remove(__instance);
-                return;
-            }
-
-            HiddenCost[__instance] = __instance.m_attackEitr;
-            __instance.m_attackEitr = 0f;
+            Prepaid.Remove(__instance);
         }
 
-        [HarmonyPatch(typeof(Attack), nameof(Attack.Update))]
-        [HarmonyPostfix]
-        private static void Update_Postfix(Attack __instance)
+        [HarmonyPatch(typeof(Player), nameof(Player.UseEitr))]
+        [HarmonyPrefix]
+        private static bool Player_UseEitr_Prefix(Player __instance)
         {
-            if (HiddenCost.TryGetValue(__instance, out float cost))
+            return !IsPrepaidCurrent(__instance);
+        }
+
+        [HarmonyPatch(typeof(Character), nameof(Character.UseEitr))]
+        [HarmonyPrefix]
+        private static bool Character_UseEitr_Prefix(Character __instance)
+        {
+            return !IsPrepaidCurrent(__instance);
+        }
+
+        private static void ClearPrepaid(Character character)
+        {
+            if (character == null || Prepaid.Count == 0)
             {
-                __instance.m_attackEitr = cost;
-                HiddenCost.Remove(__instance);
+                return;
             }
+
+            Prepaid.RemoveWhere(attack => attack == null || attack.m_character == character);
+        }
+
+        private static bool IsPrepaidCurrent(Character character)
+        {
+            if (character == null || Prepaid.Count == 0)
+            {
+                return false;
+            }
+
+            Humanoid humanoid = character as Humanoid;
+            Attack current = humanoid != null ? humanoid.m_currentAttack : null;
+            if (current != null && Prepaid.Contains(current))
+            {
+                return true;
+            }
+
+            foreach (Attack attack in Prepaid)
+            {
+                if (attack != null && attack.m_character == character)
+                {
+                    return true;
+                }
+            }
+
+            return false;
         }
     }
 

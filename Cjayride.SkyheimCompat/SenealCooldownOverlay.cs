@@ -381,10 +381,22 @@ namespace Cjayride.SkyheimCompat
     [HarmonyPatch(typeof(InventoryGrid), nameof(InventoryGrid.UpdateGui))]
     internal static class InventoryGrid_UpdateGui_Cooldown_Patch
     {
+        // SkyheimCooldown looks up Player.GetInventory().GetItemAt(Location). Extra grids
+        // (Adventure Backpacks, chests) reuse the same Vector2i origin, so a rune at (2,1)
+        // also painted a timer on backpack slot (2,1). Only the player's own inventory grid
+        // should carry these overlays; other grids are stripped once when first seen.
+        private static readonly Dictionary<int, int> NonPlayerScan = new Dictionary<int, int>();
+
         private static void Postfix(InventoryGrid __instance)
         {
             if (__instance == null || __instance.m_elements == null)
             {
+                return;
+            }
+
+            if (!IsLocalPlayerInventory(__instance.m_inventory))
+            {
+                StripNonPlayerGrid(__instance);
                 return;
             }
 
@@ -396,6 +408,31 @@ namespace Cjayride.SkyheimCompat
                 }
 
                 CooldownPrefab.EnsureOn(element.transform, element.Position);
+            }
+        }
+
+        private static bool IsLocalPlayerInventory(Inventory inventory)
+        {
+            Player player = Player.m_localPlayer;
+            return player != null && inventory != null && inventory == player.GetInventory();
+        }
+
+        private static void StripNonPlayerGrid(InventoryGrid grid)
+        {
+            int id = grid.GetInstanceID();
+            int count = grid.m_elements.Count;
+            if (NonPlayerScan.TryGetValue(id, out int previous) && previous == count)
+            {
+                return;
+            }
+
+            NonPlayerScan[id] = count;
+            foreach (InventoryElement element in grid.m_elements)
+            {
+                if (element)
+                {
+                    CooldownPrefab.Strip(element.transform);
+                }
             }
         }
     }
