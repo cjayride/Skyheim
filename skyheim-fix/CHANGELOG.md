@@ -1,8 +1,12 @@
 # Changelog
 
+## 1.4.6
+
+- `skyheim.dll` **BepInPlugin** version matches this package (1.4.6). Same build as 1.4.5 otherwise. Requires Compat **1.2.8** (imbued cape eitr/regen is in Compat).
+
 ## 1.4.5
 
-- Requires Skyheim Compat **1.2.12**. Same `skyheim.dll` as 1.4.4; Thunderstore dependency line only so Fix installs pull current Compat (eitr billing, cooldown UI, rune drops, Moder scale config).
+- Requires Skyheim Compat **1.2.7**. Same `skyheim.dll` as 1.4.4 (dependency bump only — install with Compat 1.2.7).
 
 ## 1.4.4
 

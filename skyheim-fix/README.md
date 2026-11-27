@@ -33,9 +33,9 @@ Features include:
 
 ---
 
-### Latest Update (1.4.4)
+### Latest Update (1.4.6)
 
-- Requires Skyheim Compat 1.2.6. Craft panel **Rune Altar** title follows the game language.
+- Requires Skyheim Compat **1.2.8**. Imbued cape eitr and regen are applied by Compat (same `skyheim.dll` as 1.4.5).
 
 ### Previous (1.4.3)
 

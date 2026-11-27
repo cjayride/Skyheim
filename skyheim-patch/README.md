@@ -20,18 +20,13 @@ If makail ever releases an official update, **please switch back to the original
 
 ---
 
-### Latest Update (1.2.12)
+### Latest Update (1.2.8)
 
-- Rune spells spend the tooltip eitr cost once (no double charge).
+- Imbued capes apply their extra max eitr and eitr regen while equipped.
 
-### Previous (1.2.11)
+### Previous (1.2.7)
 
-- Moder no longer drops Skyheim's unused Dragon Scale unless `[Drops] ModerDragonScale` is turned on. Trophy and Dragon Tears are unchanged.
-
-### Previous (1.2.10)
-
-- Rune cooldown timers stay on the player's inventory and hotbar. They no longer appear on Adventure Backpacks slots that share the same grid coordinates.
-- Unique runes (Rune of Travel included) are taken out of inventory when dropped onto the ground, so throwing one no longer duplicates it.
+- Single eitr cost per rune cast, backpack cooldown fix, travel-rune drop dup fix, Moder Dragon Scale off by default (see CHANGELOG).
 
 ### Previous (1.2.6)
 

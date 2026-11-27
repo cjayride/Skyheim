@@ -1,19 +1,7 @@
-# Skyheim — Compat 1.2.12 release
+# Skyheim — Thunderstore versions
 
-## Status
-Ready: commit, tag `compat-v1.2.12`, push, Thunderstore zip.
+**Shipping:**
+- Compat **1.2.8** — imbued capes/backpacks/SeneaL extra cape cells apply max eitr + regen (`CapeImbueStats`). Zip: `D:\AI-Agent-Projects\cjaycraft\Cjayride.Skyheim\dist\upload\SkyheimCompat-1.2.8.zip`
+- Fix **1.4.6** — depends on Compat 1.2.8; same `skyheim.dll` as 1.4.5. Zip: `D:\AI-Agent-Projects\cjaycraft\Cjayride.Skyheim\dist\upload\SkyheimFix-1.4.6.zip`
 
-## 1.2.12
-- Single eitr charge per rune cast (fix double billing).
-
-## 1.2.11
-- Moder Dragon Scale drop off by default (`[Drops] ModerDragonScale`).
-
-## 1.2.10
-- Cooldown overlay only on player inventory (not Adventure Backpack grids).
-- Rune drop guard (unique runes).
-- Travel rune drop dup fix.
-
-## Output
-- DLL: `D:\AI-Agent-Projects\cjaycraft\Cjayride.Skyheim\dist\compat\Cjayride.SkyheimCompat.dll` (1.2.12.0)
-- Zip: `D:\AI-Agent-Projects\cjaycraft\Cjayride.Skyheim\dist\upload\SkyheimCompat-1.2.12.zip`
+Cause: `SkyheimArmor.Player_SetMaxEitr_Prefix` and regen postfix only sum `m_chestItem`, `m_helmetItem`, `m_legItem`. Capes are `m_shoulderItem`.

@@ -1,30 +1,16 @@
 # Changelog
 
-## 1.2.12
-
-- Rune casts spend eitr once (the tooltip cost). Compat still bills buff runes at cast accept, and skips the later vanilla Attack.Update / projectile charge so spells are not double-billed.
-
-## 1.2.11
-
-- Skyheim's extra Moder drop **Dragon Scale** (`moder_drop` / `$sh_item_moder_drop`) is off by default (`[Drops] ModerDragonScale = false`). Vanilla trophy and Dragon Tears are unchanged. Set the config true to restore the scale. The DropModifier is skipped and any leftover CharacterDrop row is stripped before `GenerateDropList`.
-
-## 1.2.10
-
-- Rune cooldown timers only draw on the player's inventory (and hotbar). Adventure Backpacks and other extra grids no longer show a copy of the timer in a slot that happens to share the same grid coordinates.
-- Unique Skyheim runes (including Rune of Travel) are removed from player inventory, an open chest, and an equipped Adventure Backpack if a world drop is spawned while the item is still held, which stopped the throw-on-the-ground duplicate.
-
-## 1.2.9
-
-- `[Cooldown overlay] OnSenealHotbar` default is **true** again (the 1.2.6 behaviour). 1.2.7 turned it off claiming Skyheim's overlay was stacking a second square and centred number on SeneaL UI's hotbar. The 1.2.8 self-reporting strip settled it from the log: **0 overlays found on the SeneaL slots** and **0 attaches** — Skyheim never attached there in the first place, so 1.2.7 changed nothing on the custom HUD and the attribution was a guess. The gate and strip stay (set false to let SeneaL HUD Layout own the space), and both paths now report counts.
-- Attach path logs `Skyheim cooldown overlays on SeneaL UI's hotbar/action slots: N of M slots carry one.` — the claim is now checkable from `LogOutput.log` instead of inferred.
-
 ## 1.2.8
 
-- The SeneaL-slot strip (1.2.7) now LOGS once with the number of Skyheim cooldown overlays it removed from SeneaL UI's hotbar/action slots. 1.2.7's strip was silent, so the claim "Skyheim's overlay was stacking a second square and number on the custom HUD" was inferred from the code and could not be confirmed from the log. It now proves itself: the line appears (Skyheim was really attaching there) or never appears (it was not).
+- Imbued capes, backpacks, and extra SeneaL cape cells add their Maximum Eitr and Eitr Regen while equipped (Skyheim only counted helmet, chest, and legs).
 
 ## 1.2.7
 
-- SeneaL hotbar/action slots: Skyheim's own cooldown square + centred number no longer attach there (new `[Cooldown overlay] OnSenealHotbar`, default false). SeneaL HUD Layout draws the hotbar cooldown timer; two overlays stacked as a visible "border ring" around its inset square, and Skyheim's centred Arial number covered HUD Layout's offset one. Existing clones are destroyed on load. The inventory grid's rune-cooldown overlays are unchanged.
+- Rune casts spend eitr once (tooltip amount; fixes double billing).
+- Rune cooldown overlays only on the player inventory / hotbar — not Adventure Backpacks grids at the same coordinates.
+- Unique runes no longer duplicate when dropped (e.g. Rune of Travel).
+- Moder **Dragon Scale** extra drop off by default (`[Drops] ModerDragonScale`). Trophy and Dragon Tears unchanged.
+- `[Cooldown overlay] OnSenealHotbar` default true again; optional strip when false (unchanged from 1.2.6 intent).
 
 ## 1.2.6
 
